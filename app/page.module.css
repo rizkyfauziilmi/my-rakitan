@@ -1,0 +1,396 @@
+
+.wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+
+.topnav {
+  background: #ffffff;
+  color: #111;
+  padding: 14px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.leftNav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logoBadge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#6366f1,#a855f7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.brandName {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.navLinks {
+  display: flex;
+  gap: 20px;
+  margin-left: 28px;
+  font-size: 14px;
+}
+
+.rightNav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.searchInput {
+  width: 150px;
+  padding: 10px 14px 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  text-align: center;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23999' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35' /%3E%3C/svg%3E");
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: 12px center; /* posisi ikon */
+}
+
+/* Buttons */
+.themeBtn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-color: #fff;
+}
+
+.loginBtn {
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 500;
+  border: none;
+}
+
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  padding: 60px 64px;
+  align-items: center;
+  gap: 40px;
+}
+
+.heroText h1 {
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.heroText p {
+  font-size: 17px;
+  opacity: 0.9;
+  margin-top: 10px;
+  max-width: 520px;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.primaryBtn {
+  background: #fff;
+  color: #111;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+}
+
+.secondaryBtn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.5);
+  padding: 12px 18px;
+  border-radius: 12px;
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+.heroImage {
+  height: 360px;
+  border-radius: 16px;
+  background-image: url("/bgpcrakitandepan.png");
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+}
+
+.midCTA {
+  text-align: center;
+  padding: 80px 24px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+}
+
+.midCTA h2 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.midCTAButtons {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.secondaryBtnWhite {
+  background: transparent;
+  border: 1px solid #fff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.footer {
+  background: #0f172a;
+  color: #ddd;
+  padding: 60px 48px 40px;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.footerBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footerLogoBadge {
+  width: 34px;
+  height: 34px;
+  background: #5b30f3;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerSocials {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.footerGrid ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+}
+
+.footerGrid li {
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.footerCopyright {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+@media (max-width: 980px) {
+
+  .topnav {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .searchInput {
+    display: block !important;
+    width: 120px;
+    padding-left: 34px;
+    border-radius: 14px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+
+    background-size: 16px;
+    background-position: 10px center;
+  }
+
+  .rightNav {
+    gap: 8px;
+  }
+
+  .loginBtn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroText h1 {
+    font-size: 42px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroImage {
+    height: 200px; /* atau 180px supaya lebih pas */
+    border-radius: 12px;
+  }
+  .topnav {
+    padding: 10px 14px;
+    gap: 6px;
+  }
+
+  .brandName {
+    display: none;
+  }
+
+  .logoBadge {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  .searchInput {
+    width: 110px;
+    padding-left: 30px;
+    font-size: 12px;
+    margin-left: 4px;
+
+    background-size: 14px;
+    background-position: 8px center;
+  }
+
+  .loginBtn {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .rightNav {
+    gap: 6px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 40px 24px;
+  }
+
+  .heroImage {
+    height: 240px;
+  }
+
+  .heroText h1 {
+    font-size: 34px;
+  }
+
+  .heroButtons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .footer {
+    padding: 40px 24px;
+  }
+
+  .footerCopyright {
+    font-size: 13px;
+  }
+}
+
+.burgerBtn {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 980px) {
+  .burgerBtn {
+    display: block;
+  }
+}
+
+.mobileSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background: #ffffff;
+  color: #111;
+  padding: 20px;
+  z-index: 999;
+  transform: translateX(-100%);
+  transition: 0.35s ease;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+}
+
+.openSidebar {
+  transform: translateX(0);
+}
+
+.closeBtn {
+  font-size: 22px;
+  background: none;
+  border: none;
+  float: right;
+  cursor: pointer;
+}
+
+.mobileMenuItems {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+  z-index: 998;
+}
