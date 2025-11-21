@@ -19,7 +19,7 @@ export function Topbar() {
 
 function TopBarBanner() {
   return (
-    <div className="bg-[#252b42] text-white flex items-center justify-between px-4 py-2">
+    <div className="bg-primary text-primary-foreground flex items-center justify-between px-4 py-2">
       <div className="flex items-center gap-4">
         <Button variant="link" className="text-white">
           <Phone />
@@ -31,7 +31,7 @@ function TopBarBanner() {
         </Button>
       </div>
 
-      <p>Ikuti Kami dan Dapatkan Diskon Hingga 80%!</p>
+      <p>Ikuti Kami dan Dapatkan Diskon Hingga 80%</p>
 
       <div className="flex items-center gap-1">
         <p>Ikuti Kami:</p>

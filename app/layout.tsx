@@ -4,6 +4,11 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Topbar } from "./_components/topbar";
 import { HomeLayout } from "@/components/_layouts/home-layout";
 import Footer from "./_components/footer";
+import { Open_Sans } from "next/font/google";
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="id" className={openSans.className} suppressHydrationWarning>
         <head />
         <body>
           <ThemeProvider

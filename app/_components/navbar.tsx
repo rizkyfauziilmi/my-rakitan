@@ -138,7 +138,7 @@ export function NavBar() {
 function ButtonCounter({
   icon,
   count,
-  variant = "destructive",
+  variant = "default",
 }: {
   icon: React.ReactNode;
   count: number;
@@ -160,7 +160,7 @@ function ButtonCounter({
 
 function CountItemBadge({
   count,
-  variant = "destructive",
+  variant = "default",
 }: {
   count: number;
   variant?:

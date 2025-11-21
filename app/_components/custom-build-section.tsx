@@ -166,7 +166,7 @@ export function CustomBuildSection() {
                   className={`group relative p-6 rounded-lg border-2 transition-all duration-300 transform hover:scale-105 ${
                     selectedComponent === index
                       ? "border-primary bg-primary/10"
-                      : "border-muted-foreground bg-muted/50 hover:border-slate-600"
+                      : "border-muted-foreground/20 hover:border-primary"
                   }`}
                 >
                   <div className="space-y-2">
@@ -188,80 +188,78 @@ export function CustomBuildSection() {
                 Sesuaikan Setiap Detail
               </h3>
               <div className="space-y-4">
-                <div className="p-4 rounded-lg bg-primary/10 border border-muted-foreground space-y-2">
-                  <p className="text-sm text-muted-foreground">
-                    {buildComponents[selectedComponent].items
-                      ? `Opsi untuk ${buildComponents[selectedComponent].name}`
-                      : null}
-                  </p>
-                  {buildComponents[selectedComponent].items ? (
-                    <ItemGroup className="grid grid-cols-3 gap-4">
-                      {buildComponents[selectedComponent].items.map(
-                        (component) => (
-                          <Item key={component.name} variant="muted">
-                            <ItemHeader>
-                              <Image
-                                src={component.image}
-                                alt={component.name}
-                                width={128}
-                                height={128}
-                                className="aspect-square w-full rounded-sm object-cover"
-                              />
-                            </ItemHeader>
-                            <ItemContent>
-                              <ItemTitle>{component.name}</ItemTitle>
-                            </ItemContent>
-                          </Item>
-                        ),
-                      )}
-                      <Item key="Many" variant="muted">
-                        <ItemHeader className="flex items-center justify-center">
-                          <MoreHorizontal className="h-16 w-16 text-muted-foreground animate-pulse" />
-                        </ItemHeader>
-                        <ItemContent className="mt-auto">
-                          <ItemTitle>Banyak Lagi Opsi Tersedia!</ItemTitle>
-                        </ItemContent>
-                      </Item>
-                    </ItemGroup>
-                  ) : (
-                    <Item variant="outline" className="w-full">
-                      <ItemMedia variant="icon">
-                        <BadgeInfo />
-                      </ItemMedia>
-                      <ItemContent>
-                        <ItemTitle>
-                          Kunjungi Halaman Rakit Kustom untuk Lebih Banyak Opsi
-                        </ItemTitle>
-                        <ItemDescription>
-                          Jelajahi berbagai macam komponen PC untuk membangun
-                          setup impian Anda.
-                        </ItemDescription>
+                <p className="text-sm text-muted-foreground">
+                  {buildComponents[selectedComponent].items
+                    ? `Opsi untuk ${buildComponents[selectedComponent].name}`
+                    : null}
+                </p>
+                {buildComponents[selectedComponent].items ? (
+                  <ItemGroup className="grid grid-cols-3 gap-4">
+                    {buildComponents[selectedComponent].items.map(
+                      (component) => (
+                        <Item key={component.name} variant="muted">
+                          <ItemHeader>
+                            <Image
+                              src={component.image}
+                              alt={component.name}
+                              width={128}
+                              height={128}
+                              className="aspect-square w-full rounded-sm object-cover"
+                            />
+                          </ItemHeader>
+                          <ItemContent>
+                            <ItemTitle>{component.name}</ItemTitle>
+                          </ItemContent>
+                        </Item>
+                      ),
+                    )}
+                    <Item key="Many" variant="muted">
+                      <ItemHeader className="flex items-center justify-center">
+                        <MoreHorizontal className="h-16 w-16 text-muted-foreground animate-pulse" />
+                      </ItemHeader>
+                      <ItemContent className="mt-auto">
+                        <ItemTitle>Banyak Lagi Opsi Tersedia!</ItemTitle>
                       </ItemContent>
-                      <ItemActions>
-                        <Button size="sm" variant="outline" asChild>
-                          <Link href="/rakit-komputer-custom">Build Now</Link>
-                        </Button>
-                      </ItemActions>
                     </Item>
-                  )}
-                </div>
+                  </ItemGroup>
+                ) : (
+                  <Item variant="muted" className="w-full">
+                    <ItemMedia variant="icon">
+                      <BadgeInfo />
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle>
+                        Kunjungi Halaman Rakit Kustom untuk Lebih Banyak Opsi
+                      </ItemTitle>
+                      <ItemDescription>
+                        Jelajahi berbagai macam komponen PC untuk membangun
+                        setup impian Anda.
+                      </ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <Button size="sm" variant="outline" asChild>
+                        <Link href="/rakit-komputer-custom">Build Now</Link>
+                      </Button>
+                    </ItemActions>
+                  </Item>
+                )}
                 <div className="space-y-3">
                   <p className="text-sm text-muted-foreground">Fitur Rakit:</p>
                   <ul className="space-y-2">
                     <li className="flex items-center gap-3 text-sm">
-                      <span className="h-2 w-2 rounded-full bg-blue-500"></span>
+                      <span className="h-2 w-2 rounded-full bg-primary"></span>
                       Pencocokan komponen ahli & kompatibilitas
                     </li>
                     <li className="flex items-center gap-3 text-sm">
-                      <span className="h-2 w-2 rounded-full bg-cyan-500"></span>
+                      <span className="h-2 w-2 rounded-full bg-secondary-foreground"></span>
                       Perakitan & pengujian profesional
                     </li>
                     <li className="flex items-center gap-3 text-sm">
-                      <span className="h-2 w-2 rounded-full bg-purple-500"></span>
+                      <span className="h-2 w-2 rounded-full bg-accent-foreground"></span>
                       Dukungan teknis seumur hidup
                     </li>
                     <li className="flex items-center gap-3 text-sm">
-                      <span className="h-2 w-2 rounded-full bg-pink-500"></span>
+                      <span className="h-2 w-2 rounded-full bg-muted-foreground"></span>
                       Estetika kustom & manajemen kabel
                     </li>
                   </ul>
@@ -271,11 +269,11 @@ export function CustomBuildSection() {
 
             <Button
               size="lg"
-              className="w-full gap-2 bg-linear-to-r from-primary via-primary/20 to-primary-foreground"
+              className="w-full gap-2 bg-linear-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90 transition hover:transform hover:scale-105"
               asChild
             >
               <Link href="/rakit-komputer-custom">
-                Start Building Now <ArrowRight className="h-4 w-4" />
+                Mulai Rakit Komputer Kustom <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>

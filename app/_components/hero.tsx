@@ -3,13 +3,13 @@ import Image from "next/image";
 
 export function Hero() {
   return (
-    <section className="min-h-[calc(100vh-150px)] flex items-center justify-center p-8">
+    <section className="min-h-[calc(100vh-100px)] flex items-center justify-center p-8">
       <div className="flex flex-col items-start flex-1 text-left gap-4">
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-balance">
           Bangun PC Impianmu bersama{" "}
           <span className="text-primary font-extrabold">MyRakitan.id</span>
         </h1>
-        <p className="text-muted-foreground text-xl">
+        <p className="text-xl">
           Temukan solusi terbaik untuk semua kebutuhan komputermu dengan{" "}
           <span className="text-primary font-extrabold">harga bersaing</span>{" "}
           dan{" "}
