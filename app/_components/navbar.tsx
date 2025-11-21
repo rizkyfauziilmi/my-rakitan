@@ -64,7 +64,7 @@ export function NavBar() {
   const isMobile = useIsMobile();
 
   return (
-    <nav>
+    <nav className="bg-background">
       <div className="px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-12">
           <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
