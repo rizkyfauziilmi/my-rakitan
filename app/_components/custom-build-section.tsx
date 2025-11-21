@@ -140,9 +140,7 @@ export function CustomBuildSection() {
       <div className="mx-auto max-w-6xl relative z-10">
         {/* Header */}
         <div className="mb-16 text-center">
-          <Badge variant="outline" className="mb-2">
-            🎯 Bangun PC Impian Anda
-          </Badge>
+          <Badge className="mb-2 scale-125">🎯 Bangun PC Impian Anda</Badge>
           <h2 className="mb-6 text-balance text-5xl font-bold tracking-tight sm:text-6xl">
             Rakit PC Kustom
           </h2>

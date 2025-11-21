@@ -38,7 +38,7 @@ const components: {
   },
   {
     title: "PC Rakitan",
-    href: "/prebuilt-pc",
+    href: "/pc-rakitan",
     description:
       "Pilihan komputer siap pakai yang dirancang untuk memenuhi kebutuhan Anda dengan performa terbaik.",
     icon: <PcCase />,
@@ -101,7 +101,7 @@ export function NavBar() {
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/about">Tentang Kami</Link>
+                  <Link href="/tentang-kami">Tentang Kami</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
@@ -109,7 +109,7 @@ export function NavBar() {
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/contact">Kontak</Link>
+                  <Link href="/kontak">Kontak</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>

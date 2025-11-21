@@ -2,9 +2,19 @@
 
 import { useState } from "react";
 import type React from "react";
-import { Gamepad2, Zap, PenTool, Check, ShoppingCart, Bot } from "lucide-react";
+import {
+  Gamepad2,
+  Zap,
+  PenTool,
+  Check,
+  ShoppingCart,
+  Bot,
+  MoveRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface PrebuiltCategory {
   id: string;
@@ -118,11 +128,9 @@ export function PrebuiltPCSection() {
       <div className="mx-auto max-w-6xl relative z-10">
         {/* Header */}
         <div className="mb-16 text-center">
-          <Badge variant="outline" className="mb-2">
-            🌟 PC Rakitan Siap Pakai
-          </Badge>
+          <Badge className="mb-2 scale-125">🌟 PC Rakitan Siap Pakai</Badge>
           <h2 className="mb-6 text-balance text-5xl font-bold tracking-tight sm:text-6xl">
-            Mesin Bertenaga Siap Pakai
+            PC Siap Pakai
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Pilih kategori Anda dan jelajahi sistem yang dikonfigurasi oleh
@@ -134,19 +142,25 @@ export function PrebuiltPCSection() {
         {/* Category Tabs with Toggle Animation */}
         <div className="mb-12 flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
           {categories.map((category) => (
-            <button
+            <Button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`relative px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2 ${
+              className={cn(
                 activeCategory === category.id
                   ? "bg-accent text-accent-foreground shadow-lg scale-105"
-                  : "bg-card text-muted-foreground hover:bg-secondary border border-border"
-              }`}
+                  : "bg-card text-muted-foreground hover:bg-secondary border border-border",
+              )}
+              size="lg"
             >
               {category.icon}
               {category.name}
-            </button>
+            </Button>
           ))}
+          <Button size="lg" asChild>
+            <Link href="/pc-rakitan">
+              Lihat Semua PC Rakitan <MoveRight />
+            </Link>
+          </Button>
         </div>
 
         {/* Active Category Display with Animated Transition */}
@@ -219,10 +233,7 @@ export function PrebuiltPCSection() {
               </div>
             </div>
 
-            <Button
-              size="lg"
-              className="w-full mt-8 gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
-            >
+            <Button size="lg" className="w-full mt-8">
               Tambahkan ke Keranjang <ShoppingCart />
             </Button>
           </div>

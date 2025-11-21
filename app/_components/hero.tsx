@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -22,9 +23,11 @@ export function Hero() {
           </span>
         </p>
         <div>
-          <Button>Rakit Komputer Sekarang</Button>
-          <Button variant="outline" className="ml-4">
-            Lihat Komponen
+          <Button asChild>
+            <Link href="rakit-komputer-custom">Rakit Komputer Sekarang</Link>
+          </Button>
+          <Button variant="outline" className="ml-4" asChild>
+            <Link href="komponen">Lihat Komponen</Link>
           </Button>
         </div>
       </div>
