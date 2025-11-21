@@ -10,7 +10,7 @@ import { NavBar } from "./navbar";
 
 export function Topbar() {
   return (
-    <div>
+    <div className="sticky top-0 z-50">
       <TopBarBanner />
       <NavBar />
     </div>
