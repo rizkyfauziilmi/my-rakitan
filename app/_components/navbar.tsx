@@ -21,14 +21,13 @@ import {
 } from "@/components/ui/navigation-menu";
 import useIsMobile from "@/hooks/use-is-mobile";
 import Link from "next/link";
-import { JSX } from "react";
 import { Badge } from "@/components/ui/badge";
 
 const components: {
   title: string;
   href: string;
   description: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
 }[] = [
   {
     title: "Rakit Komputer Custom",
@@ -141,7 +140,7 @@ function ButtonCounter({
   count,
   variant = "destructive",
 }: {
-  icon: JSX.Element;
+  icon: React.ReactNode;
   count: number;
   variant?:
     | "default"
@@ -190,7 +189,7 @@ function ListItem({
   ...props
 }: React.ComponentPropsWithoutRef<"li"> & {
   href: string;
-  icon?: JSX.Element;
+  icon: React.ReactNode;
 }) {
   return (
     <li {...props}>
