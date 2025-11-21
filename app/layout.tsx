@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Topbar } from "./_components/topbar";
 import { HomeLayout } from "@/components/_layouts/home-layout";
+import Footer from "./_components/footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,6 +28,7 @@ export default function RootLayout({
           >
             <Topbar />
             <HomeLayout>{children}</HomeLayout>
+            <Footer />
           </ThemeProvider>
         </body>
       </html>
