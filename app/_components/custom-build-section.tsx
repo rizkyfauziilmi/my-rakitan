@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 interface BuildComponent {
   name: string;
@@ -139,11 +140,9 @@ export function CustomBuildSection() {
       <div className="mx-auto max-w-6xl relative z-10">
         {/* Header */}
         <div className="mb-16 text-center">
-          <div className="mb-4 inline-block">
-            <span className="inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-primary border border-blue-500/30">
-              🎯 Bangun PC Impian Anda
-            </span>
-          </div>
+          <Badge variant="outline" className="mb-2">
+            🎯 Bangun PC Impian Anda
+          </Badge>
           <h2 className="mb-6 text-balance text-5xl font-bold tracking-tight sm:text-6xl">
             Rakit PC Kustom
           </h2>
