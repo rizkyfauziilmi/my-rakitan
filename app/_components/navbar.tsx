@@ -1,15 +1,7 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import {
-  Bookmark,
-  Gpu,
-  Hammer,
-  Keyboard,
-  LucideLogIn,
-  PcCase,
-  ShoppingCart,
-} from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Bookmark, Gpu, Hammer, Keyboard, LucideLogIn, PcCase, ShoppingCart } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,13 +10,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import useIsMobile from "@/hooks/use-is-mobile";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { ModeToggle } from "@/components/mode-toggle";
-import { authClient } from "@/lib/auth-client";
-import { UserDropdown } from "@/components/user-dropdown";
+} from '@/components/ui/navigation-menu';
+import useIsMobile from '@/hooks/use-is-mobile';
+import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { ModeToggle } from '@/components/mode-toggle';
+import { authClient } from '@/lib/auth-client';
+import { UserDropdown } from '@/components/user-dropdown';
 
 const components: {
   title: string;
@@ -33,31 +25,30 @@ const components: {
   icon: React.ReactNode;
 }[] = [
   {
-    title: "Rakit Komputer Custom",
-    href: "/rakit-komputer-custom",
+    title: 'Rakit Komputer Custom',
+    href: '/rakit-komputer-custom',
     description:
-      "Ciptakan komputer impian Anda dengan spesifikasi yang sepenuhnya dapat disesuaikan.",
+      'Ciptakan komputer impian Anda dengan spesifikasi yang sepenuhnya dapat disesuaikan.',
     icon: <Hammer />,
   },
   {
-    title: "PC Rakitan",
-    href: "/pc-rakitan",
+    title: 'PC Rakitan',
+    href: '/pc-rakitan',
     description:
-      "Pilihan komputer siap pakai yang dirancang untuk memenuhi kebutuhan Anda dengan performa terbaik.",
+      'Pilihan komputer siap pakai yang dirancang untuk memenuhi kebutuhan Anda dengan performa terbaik.',
     icon: <PcCase />,
   },
   {
-    title: "Komponen PC",
-    href: "/komponen-pc",
+    title: 'Komponen PC',
+    href: '/komponen-pc',
     description:
-      "Temukan berbagai komponen berkualitas tinggi untuk meningkatkan performa PC Anda.",
+      'Temukan berbagai komponen berkualitas tinggi untuk meningkatkan performa PC Anda.',
     icon: <Gpu />,
   },
   {
-    title: "Aksesoris PC",
-    href: "/aksesoris-pc",
-    description:
-      "Lengkapi kebutuhan PC Anda dengan aksesoris terbaik dari kami.",
+    title: 'Aksesoris PC',
+    href: '/aksesoris-pc',
+    description: 'Lengkapi kebutuhan PC Anda dengan aksesoris terbaik dari kami.',
     icon: <Keyboard />,
   },
 ];
@@ -68,19 +59,14 @@ export function NavBar() {
 
   return (
     <nav className="bg-background">
-      <div className="px-6 py-4 flex items-center justify-between">
+      <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-12">
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            MyRakitan.id
-          </h3>
+          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">MyRakitan.id</h3>
           <div className="flex gap-2">
             <NavigationMenu viewport={isMobile}>
               <NavigationMenuList className="flex-wrap">
                 <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
+                  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                     <Link href="/">Beranda</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -102,26 +88,17 @@ export function NavBar() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
+                  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                     <Link href="/tentang-kami">Tentang Kami</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
+                  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                     <Link href="/kontak">Kontak</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
+                  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                     <Link href="/faq">FAQ</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -151,20 +128,14 @@ export function NavBar() {
 function ButtonCounter({
   icon,
   count,
-  variant = "default",
+  variant = 'default',
 }: {
   icon: React.ReactNode;
   count: number;
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | null
-    | undefined;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | null | undefined;
 }) {
   return (
-    <Button variant="outline" size="icon" className="rounded-full relative">
+    <Button variant="outline" size="icon" className="relative rounded-full">
       {icon}
       <CountItemBadge count={count} variant={variant} />
     </Button>
@@ -173,21 +144,15 @@ function ButtonCounter({
 
 function CountItemBadge({
   count,
-  variant = "default",
+  variant = 'default',
 }: {
   count: number;
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | null
-    | undefined;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | null | undefined;
 }) {
   return (
     <Badge
       variant={variant}
-      className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums absolute -top-2 -right-2"
+      className="absolute -top-2 -right-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
     >
       {count}
     </Badge>
@@ -200,7 +165,7 @@ function ListItem({
   href,
   icon,
   ...props
-}: React.ComponentPropsWithoutRef<"li"> & {
+}: React.ComponentPropsWithoutRef<'li'> & {
   href: string;
   icon: React.ReactNode;
 }) {
@@ -208,13 +173,11 @@ function ListItem({
     <li {...props}>
       <NavigationMenuLink asChild>
         <Link href={href}>
-          <div className="flex items-center gap-3 mb-1">
+          <div className="mb-1 flex items-center gap-3">
             {icon && icon}
             <div className="text-sm leading-none font-medium">{title}</div>
           </div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
+          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">{children}</p>
         </Link>
       </NavigationMenuLink>
     </li>

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Facebook } from "@/components/svgs/facebook";
-import { Instagram } from "@/components/svgs/instagram";
-import { XformerlyTwitter } from "@/components/svgs/x-twitter";
-import { YouTube } from "@/components/svgs/youtube";
-import { Button } from "@/components/ui/button";
-import { Mail, Phone } from "lucide-react";
-import { NavBar } from "./navbar";
+import { Facebook } from '@/components/svgs/facebook';
+import { Instagram } from '@/components/svgs/instagram';
+import { XformerlyTwitter } from '@/components/svgs/x-twitter';
+import { YouTube } from '@/components/svgs/youtube';
+import { Button } from '@/components/ui/button';
+import { Mail, Phone } from 'lucide-react';
+import { NavBar } from './navbar';
 
 export function Topbar() {
   return (

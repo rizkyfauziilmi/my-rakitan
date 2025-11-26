@@ -1,6 +1,6 @@
 export function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="mx-8 pb-8 mt-12 rounded-md bg-linear-to-r min-h-screen from-primary/30 to-secondary/50">
+    <main className="from-primary/30 to-secondary/50 mx-8 mt-12 min-h-screen rounded-md bg-linear-to-r pb-8">
       {children}
     </main>
   );

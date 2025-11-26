@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { LogOut, MoreVertical } from "lucide-react";
+import { LogOut, MoreVertical } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,10 +10,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { authClient, Session } from "@/lib/auth-client";
-import { toast } from "sonner";
-import { usernameToAvatarFallback } from "@/lib/string";
+} from '@/components/ui/dropdown-menu';
+import { authClient, Session } from '@/lib/auth-client';
+import { toast } from 'sonner';
+import { usernameToAvatarFallback } from '@/lib/string';
 
 export function UserDropdown({ session }: { session: Session }) {
   const { user } = session;
@@ -22,7 +22,7 @@ export function UserDropdown({ session }: { session: Session }) {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="h-8 w-8">
-          <AvatarImage src={user.image ?? ""} alt={user.name} />
+          <AvatarImage src={user.image ?? ''} alt={user.name} />
           <AvatarFallback className="rounded-lg">
             {usernameToAvatarFallback(user.name)}
           </AvatarFallback>
@@ -37,16 +37,14 @@ export function UserDropdown({ session }: { session: Session }) {
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar className="h-8 w-8 rounded-lg">
-              <AvatarImage src={user.image ?? ""} alt={user.name} />
+              <AvatarImage src={user.image ?? ''} alt={user.name} />
               <AvatarFallback className="rounded-lg">
                 {usernameToAvatarFallback(user.name)}
               </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{user.name}</span>
-              <span className="text-muted-foreground truncate text-xs">
-                {user.email}
-              </span>
+              <span className="text-muted-foreground truncate text-xs">{user.email}</span>
             </div>
           </div>
         </DropdownMenuLabel>
@@ -56,7 +54,7 @@ export function UserDropdown({ session }: { session: Session }) {
             await authClient.signOut({
               fetchOptions: {
                 onSuccess: () => {
-                  toast.success("Berhasil keluar!");
+                  toast.success('Berhasil keluar!');
                 },
               },
             });
