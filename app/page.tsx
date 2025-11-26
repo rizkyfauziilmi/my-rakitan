@@ -7,14 +7,14 @@ import { ComponentsAccessoriesSection } from "./_components/components-accessori
 import { HomeLayout } from "@/components/_layouts/home-layout";
 
 export default function Page() {
-    return (
-        <HomeLayout>
-            <div className="space-y-14">
-                <Hero />
-                <CustomBuildSection />
-                <PrebuiltPCSection />
-                <ComponentsAccessoriesSection />
-            </div>
-        </HomeLayout>
-    );
+  return (
+    <HomeLayout>
+      <div className="space-y-14">
+        <Hero />
+        <CustomBuildSection />
+        <PrebuiltPCSection />
+        <ComponentsAccessoriesSection />
+      </div>
+    </HomeLayout>
+  );
 }

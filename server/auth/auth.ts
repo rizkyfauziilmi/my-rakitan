@@ -8,5 +8,8 @@ export const auth = betterAuth({
     }),
     emailAndPassword: {
         enabled: true,
+        autoSignIn: true
     },
 });
+
+type Session = typeof auth.$Infer.Session

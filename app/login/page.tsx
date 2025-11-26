@@ -1,11 +1,10 @@
 import { LoginForm } from "@/app/login/_components/login-form";
+import { AuthLayout } from "@/components/_layouts/auth-layout";
 
 export default function LoginPage() {
-    return (
-        <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-            <div className="w-full max-w-sm">
-                <LoginForm />
-            </div>
-        </div>
-    );
+  return (
+    <AuthLayout>
+      <LoginForm />
+    </AuthLayout>
+  );
 }

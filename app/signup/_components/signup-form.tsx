@@ -1,23 +1,94 @@
-import { GalleryVerticalEnd } from "lucide-react"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Eye, EyeOff, PcCase } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import z from "zod";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+
+const signUpSchema = z
+  .object({
+    email: z.email("Email tidak valid"),
+    username: z
+      .string("Username diperlukan")
+      .min(3, "Username minimal 3 karakter")
+      .max(20, "Username maksimal 20 karakter"),
+    password: z
+      .string("Password diperlukan")
+      .min(8, "Password minimal 8 karakter"),
+    confirmPassword: z.string("Konfirmasi password diperlukan"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Password dan konfirmasi password tidak sesuai",
+    path: ["confirmPassword"],
+  });
+
+type SignupFormValues = z.infer<typeof signUpSchema>;
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
+
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  async function onSubmit(dataForm: SignupFormValues) {
+    const { email, username, password, confirmPassword } = dataForm;
+
+    await authClient.signUp.email(
+      {
+        email,
+        password,
+        name: username,
+      },
+      {
+        onSuccess: (ctx) => {
+          toast.success(`Selamat datang, ${username}!`);
+          router.push("/");
+        },
+        onError: (ctx) => {
+          toast.error(`Gagal membuat akun!`, {
+            description: ctx.error.message,
+          });
+        },
+      }
+    );
+  }
+
+  const isLoading = form.formState.isSubmitting;
+
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+    <div
+      className={cn("bg-card max-w-lg p-8 flex flex-col gap-6", className)}
+      {...props}
+    >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
             <a
@@ -25,26 +96,119 @@ export function SignupForm({
               className="flex flex-col items-center gap-2 font-medium"
             >
               <div className="flex size-8 items-center justify-center rounded-md">
-                <GalleryVerticalEnd className="size-6" />
+                <PcCase className="size-6" />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">MyRakitan.id</span>
             </a>
-            <h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
+            <h1 className="text-xl font-bold">
+              Selamat datang di MyRakitan.id
+            </h1>
             <FieldDescription>
-              Already have an account? <a href="#">Sign in</a>
+              Sudah punya akun? <a href="/login">Masuk</a>
             </FieldDescription>
           </div>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="email-signup">Email</FieldLabel>
+                <Input
+                  {...field}
+                  id="email-signup"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="m@example.com"
+                  type="email"
+                  required
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="username"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="username-signup">Nama Pengguna</FieldLabel>
+                <Input
+                  {...field}
+                  id="username-signup"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="username123"
+                  type="text"
+                  required
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="password-signup">Kata Sandi</FieldLabel>
+                <div className="relative">
+                  <Input
+                    {...field}
+                    id="password-signup"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="********"
+                    type={showPassword ? "text" : "password"}
+                    required
+                  />
+                  <Button
+                    size="icon"
+                    className="absolute right-0 top-0"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff /> : <Eye />}
+                  </Button>
+                </div>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="confirmPassword"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="confirm-password-signup">
+                  Konfirmasi Kata Sandi
+                </FieldLabel>
+                <div className="relative">
+                  <Input
+                    {...field}
+                    id="confirm-password-signup"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="********"
+                    type={showConfirmPassword ? "text" : "password"}
+                    required
+                  />
+                  <Button
+                    size="icon"
+                    className="absolute right-0 top-0"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <EyeOff /> : <Eye />}
+                  </Button>
+                </div>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              required
-            />
-          </Field>
-          <Field>
-            <Button type="submit">Create Account</Button>
+            <Button type="submit">Buat Akun</Button>
           </Field>
           <FieldSeparator>Or</FieldSeparator>
           <Field className="grid gap-4 sm:grid-cols-2">
@@ -74,5 +238,5 @@ export function SignupForm({
         and <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
-  )
+  );
 }
