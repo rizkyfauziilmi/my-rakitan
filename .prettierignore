@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+build
+dist
+.vercel
+.turbo
+coverage
+pnpm-lock.yaml
+.git
+.husky
+public/**/*.png
+public/**/*.jpg
+public/**/*.jpeg
+public/**/*.webp
+README.md
+components.json

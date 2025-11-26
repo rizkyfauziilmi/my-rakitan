@@ -1,20 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import type React from "react";
-import {
-  Gamepad2,
-  Zap,
-  PenTool,
-  Check,
-  ShoppingCart,
-  Bot,
-  MoveRight,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { useState } from 'react';
+import type React from 'react';
+import { Gamepad2, Zap, PenTool, Check, ShoppingCart, Bot, MoveRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 interface PrebuiltCategory {
   id: string;
@@ -32,123 +24,117 @@ interface PrebuiltCategory {
 
 const categories: PrebuiltCategory[] = [
   {
-    id: "gaming",
-    name: "PC Gaming",
+    id: 'gaming',
+    name: 'PC Gaming',
     icon: <Gamepad2 className="h-8 w-8" />,
-    tagline: "Kuasai Setiap Permainan",
+    tagline: 'Kuasai Setiap Permainan',
     description:
-      "Rasakan frame rate yang sangat mulus pada 1440p dan 4K dengan kartu grafis dan prosesor kelas atas.",
+      'Rasakan frame rate yang sangat mulus pada 1440p dan 4K dengan kartu grafis dan prosesor kelas atas.',
     specs: [
-      { label: "GPU", value: "RTX 4070 Ti" },
-      { label: "CPU", value: "Intel i9-13900K" },
-      { label: "RAM", value: "32GB DDR5" },
-      { label: "Storage", value: "1TB NVMe SSD" },
+      { label: 'GPU', value: 'RTX 4070 Ti' },
+      { label: 'CPU', value: 'Intel i9-13900K' },
+      { label: 'RAM', value: '32GB DDR5' },
+      { label: 'Storage', value: '1TB NVMe SSD' },
     ],
-    features: [
-      "High-refresh 1440p/4K gaming",
-      "Advanced cooling",
-      "RGB lighting",
-      "VR-ready",
-    ],
+    features: ['High-refresh 1440p/4K gaming', 'Advanced cooling', 'RGB lighting', 'VR-ready'],
     price: 25000000,
   },
   {
-    id: "workstation",
-    name: "PC Workstation",
+    id: 'workstation',
+    name: 'PC Workstation',
     icon: <Zap className="h-8 w-8" />,
-    tagline: "Kekuatan Profesional",
+    tagline: 'Kekuatan Profesional',
     description:
-      "Dirancang untuk pengeditan video, rendering 3D, CAD, dan simulasi kompleks tanpa kompromi.",
+      'Dirancang untuk pengeditan video, rendering 3D, CAD, dan simulasi kompleks tanpa kompromi.',
     specs: [
-      { label: "GPU", value: "RTX 6000 Ada" },
-      { label: "CPU", value: "AMD Ryzen 9" },
-      { label: "RAM", value: "64GB DDR5" },
-      { label: "Storage", value: "2TB NVMe SSD" },
+      { label: 'GPU', value: 'RTX 6000 Ada' },
+      { label: 'CPU', value: 'AMD Ryzen 9' },
+      { label: 'RAM', value: '64GB DDR5' },
+      { label: 'Storage', value: '2TB NVMe SSD' },
     ],
     features: [
-      "ECC memory support",
-      "Professional drivers",
-      "Dual PSU capable",
-      "Thermal optimized",
+      'ECC memory support',
+      'Professional drivers',
+      'Dual PSU capable',
+      'Thermal optimized',
     ],
     price: 45000000,
   },
   {
-    id: "design",
-    name: "Desain & Grafis",
+    id: 'design',
+    name: 'Desain & Grafis',
     icon: <PenTool className="h-8 w-8" />,
-    tagline: "Presisi & Kreativitas",
+    tagline: 'Presisi & Kreativitas',
     description:
-      "Sistem dengan akurasi warna yang sempurna untuk desain grafis, fotografi, dan pembuatan konten kreatif.",
+      'Sistem dengan akurasi warna yang sempurna untuk desain grafis, fotografi, dan pembuatan konten kreatif.',
     specs: [
-      { label: "GPU", value: "RTX 4060 Ti" },
-      { label: "CPU", value: "Intel i7-13700" },
-      { label: "RAM", value: "32GB DDR5" },
-      { label: "Storage", value: "1TB NVMe SSD" },
+      { label: 'GPU', value: 'RTX 4060 Ti' },
+      { label: 'CPU', value: 'Intel i7-13700' },
+      { label: 'RAM', value: '32GB DDR5' },
+      { label: 'Storage', value: '1TB NVMe SSD' },
     ],
     features: [
-      "Factory calibrated display",
-      "Color-accurate GPU",
-      "Silent operation",
-      "Compact design",
+      'Factory calibrated display',
+      'Color-accurate GPU',
+      'Silent operation',
+      'Compact design',
     ],
     price: 20000000,
   },
   {
-    id: "ai",
-    name: "AI & Pembelajaran Mesin",
+    id: 'ai',
+    name: 'AI & Pembelajaran Mesin',
     icon: <Bot className="h-8 w-8" />,
-    tagline: "Kecerdasan Tanpa Batas",
+    tagline: 'Kecerdasan Tanpa Batas',
     description:
-      "Dioptimalkan untuk pengembangan AI, pembelajaran mendalam, dan beban kerja ilmu data dengan perangkat keras mutakhir.",
+      'Dioptimalkan untuk pengembangan AI, pembelajaran mendalam, dan beban kerja ilmu data dengan perangkat keras mutakhir.',
     specs: [
-      { label: "GPU", value: "NVIDIA A100" },
-      { label: "CPU", value: "AMD EPYC 7763" },
-      { label: "RAM", value: "128GB DDR4 ECC" },
-      { label: "Storage", value: "4TB NVMe SSD" },
+      { label: 'GPU', value: 'NVIDIA A100' },
+      { label: 'CPU', value: 'AMD EPYC 7763' },
+      { label: 'RAM', value: '128GB DDR4 ECC' },
+      { label: 'Storage', value: '4TB NVMe SSD' },
     ],
     features: [
-      "Multi-GPU support",
-      "High-speed networking",
-      "Optimized for TensorFlow/PyTorch",
-      "Enterprise-grade reliability",
+      'Multi-GPU support',
+      'High-speed networking',
+      'Optimized for TensorFlow/PyTorch',
+      'Enterprise-grade reliability',
     ],
     price: 120000000,
   },
 ];
 
 export function PrebuiltPCSection() {
-  const [activeCategory, setActiveCategory] = useState("gaming");
+  const [activeCategory, setActiveCategory] = useState('gaming');
   const activeConfig = categories.find((c) => c.id === activeCategory)!;
 
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="absolute inset-0 opacity-10 bg-accent/20 rounded-full blur-3xl" />
+    <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+      <div className="bg-accent/20 absolute inset-0 rounded-full opacity-10 blur-3xl" />
 
-      <div className="mx-auto max-w-6xl relative z-10">
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-16 text-center">
           <Badge className="mb-2 scale-125">🌟 PC Rakitan Siap Pakai</Badge>
-          <h2 className="mb-6 text-balance text-5xl font-bold tracking-tight sm:text-6xl">
+          <h2 className="mb-6 text-5xl font-bold tracking-tight text-balance sm:text-6xl">
             PC Siap Pakai
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Pilih kategori Anda dan jelajahi sistem yang dikonfigurasi oleh
-            ahli. Setiap unit dirakit, diuji, dan dioptimalkan untuk performa
-            terbaik.
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+            Pilih kategori Anda dan jelajahi sistem yang dikonfigurasi oleh ahli. Setiap unit
+            dirakit, diuji, dan dioptimalkan untuk performa terbaik.
           </p>
         </div>
 
         {/* Category Tabs with Toggle Animation */}
-        <div className="mb-12 flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
+        <div className="mb-12 flex flex-col flex-wrap justify-center gap-4 sm:flex-row">
           {categories.map((category) => (
             <Button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
               className={cn(
                 activeCategory === category.id
-                  ? "bg-accent text-accent-foreground shadow-lg scale-105"
-                  : "bg-card text-muted-foreground hover:bg-secondary border border-border",
+                  ? 'bg-accent text-accent-foreground scale-105 shadow-lg'
+                  : 'bg-card text-muted-foreground hover:bg-secondary border-border border'
               )}
               size="lg"
             >
@@ -164,17 +150,13 @@ export function PrebuiltPCSection() {
         </div>
 
         {/* Active Category Display with Animated Transition */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Left Side - Specs & Features */}
-          <div className="space-y-8 animate-in fade-in duration-300">
+          <div className="animate-in fade-in space-y-8 duration-300">
             <div>
-              <p className="text-sm font-semibold text-primary mb-2">
-                {activeConfig.tagline}
-              </p>
-              <h3 className="text-3xl font-bold mb-4">{activeConfig.name}</h3>
-              <p className="text-muted-foreground text-lg">
-                {activeConfig.description}
-              </p>
+              <p className="text-primary mb-2 text-sm font-semibold">{activeConfig.tagline}</p>
+              <h3 className="mb-4 text-3xl font-bold">{activeConfig.name}</h3>
+              <p className="text-muted-foreground text-lg">{activeConfig.description}</p>
             </div>
 
             {/* Specs Grid */}
@@ -182,38 +164,36 @@ export function PrebuiltPCSection() {
               {activeConfig.specs.map((spec, index) => (
                 <div
                   key={index}
-                  className="p-4 rounded-lg bg-card border border-border hover:border-primary/50 transition-colors"
+                  className="bg-card border-border hover:border-primary/50 rounded-lg border p-4 transition-colors"
                 >
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                  <p className="text-muted-foreground text-xs tracking-wider uppercase">
                     {spec.label}
                   </p>
-                  <p className="text-lg font-semibold mt-1 text-primary">
-                    {spec.value}
-                  </p>
+                  <p className="text-primary mt-1 text-lg font-semibold">{spec.value}</p>
                 </div>
               ))}
             </div>
 
             {/* Features */}
             <div className="space-y-3">
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              <p className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
                 Fitur Utama
               </p>
               <ul className="space-y-2">
                 {activeConfig.features.map((feature, index) => (
                   <li key={index} className="flex items-center gap-3 text-sm">
-                    <Check className="h-4 w-4 text-primary shrink-0" />
+                    <Check className="text-primary h-4 w-4 shrink-0" />
                     {feature}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="pt-4 border-t border-border">
-              <p className="text-2xl font-bold text-primary">
-                {new Intl.NumberFormat("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
+            <div className="border-border border-t pt-4">
+              <p className="text-primary text-2xl font-bold">
+                {new Intl.NumberFormat('id-ID', {
+                  style: 'currency',
+                  currency: 'IDR',
                 }).format(activeConfig.price)}
               </p>
             </div>
@@ -221,19 +201,17 @@ export function PrebuiltPCSection() {
 
           {/* Right Side - Visual Showcase */}
           <div className="relative">
-            <div className="relative h-96 rounded-xl border-2 border-border bg-card/50 p-8 flex items-center justify-center overflow-hidden group hover:border-accent/50 transition-colors">
-              <div className="relative z-10 text-center space-y-4">
-                <div className="h-40 w-40 mx-auto rounded-lg bg-accent flex items-center justify-center text-accent-foreground animate-bounce">
+            <div className="border-border bg-card/50 group hover:border-accent/50 relative flex h-96 items-center justify-center overflow-hidden rounded-xl border-2 p-8 transition-colors">
+              <div className="relative z-10 space-y-4 text-center">
+                <div className="bg-accent text-accent-foreground mx-auto flex h-40 w-40 animate-bounce items-center justify-center rounded-lg">
                   {activeConfig.icon}
                 </div>
                 <p className="text-sm font-semibold">{activeConfig.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  Klik untuk melihat di toko
-                </p>
+                <p className="text-muted-foreground text-xs">Klik untuk melihat di toko</p>
               </div>
             </div>
 
-            <Button size="lg" className="w-full mt-8">
+            <Button size="lg" className="mt-8 w-full">
               Tambahkan ke Keranjang <ShoppingCart />
             </Button>
           </div>

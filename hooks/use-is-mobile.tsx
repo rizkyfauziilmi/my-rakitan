@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 /**
  * Custom hook to determine if the current screen size is considered "mobile".
@@ -15,11 +15,11 @@ const useIsMobile = (): boolean => {
     };
 
     // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Cleanup event listener on unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
