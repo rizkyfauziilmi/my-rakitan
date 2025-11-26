@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Topbar } from "./_components/topbar";
-import { HomeLayout } from "@/components/_layouts/home-layout";
 import Footer from "./_components/footer";
 import { Open_Sans } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -32,8 +32,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Topbar />
-            <HomeLayout>{children}</HomeLayout>
+            {children}
             <Footer />
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>

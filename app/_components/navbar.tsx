@@ -23,6 +23,8 @@ import useIsMobile from "@/hooks/use-is-mobile";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/mode-toggle";
+import { authClient } from "@/lib/auth-client";
+import { UserDropdown } from "@/components/user-dropdown";
 
 const components: {
   title: string;
@@ -62,6 +64,7 @@ const components: {
 
 export function NavBar() {
   const isMobile = useIsMobile();
+  const { data: session, isPending } = authClient.useSession();
 
   return (
     <nav className="bg-background">
@@ -128,9 +131,15 @@ export function NavBar() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="outline">
-            <LucideLogIn /> Masuk / Daftar
-          </Button>
+          {isPending ? null : session ? (
+            <UserDropdown session={session} />
+          ) : (
+            <Button variant="outline" asChild>
+              <Link href="/login">
+                <LucideLogIn /> Masuk / Daftar
+              </Link>
+            </Button>
+          )}
           <ButtonCounter icon={<ShoppingCart />} count={2} />
           <ButtonCounter icon={<Bookmark />} count={5} />
         </div>
