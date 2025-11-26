@@ -20,6 +20,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authClient } from '@/lib/auth-client';
 import { toast } from 'sonner';
+import { Spinner } from '@/components/ui/spinner';
 
 const signUpSchema = z
   .object({
@@ -60,7 +61,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   });
 
   async function onSubmit(dataForm: SignupFormValues) {
-    const { email, username, password, confirmPassword } = dataForm;
+    const { email, username, password } = dataForm;
 
     await authClient.signUp.email(
       {
@@ -69,7 +70,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
         name: username,
       },
       {
-        onSuccess: (ctx) => {
+        onSuccess: () => {
           toast.success(`Selamat datang, ${username}!`);
           router.push('/');
         },
@@ -191,7 +192,10 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
             )}
           />
           <Field>
-            <Button type="submit">Buat Akun</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Spinner />}
+              {isLoading ? 'Membuat Akun...' : 'Buat Akun'}
+            </Button>
           </Field>
           <FieldSeparator>Atau</FieldSeparator>
           <Field>
