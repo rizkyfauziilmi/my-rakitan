@@ -61,7 +61,9 @@ export function NavBar() {
     <nav className="bg-background">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-12">
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">MyRakitan.id</h3>
+          <Link href="/">
+            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">MyRakitan.id</h3>
+          </Link>
           <div className="flex gap-2">
             <NavigationMenu viewport={isMobile}>
               <NavigationMenuList className="flex-wrap">

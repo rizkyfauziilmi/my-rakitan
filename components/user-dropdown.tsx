@@ -1,6 +1,6 @@
 'use client';
 
-import { LogOut } from 'lucide-react';
+import { LayoutDashboard, LogOut } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -14,9 +14,11 @@ import {
 import { authClient, Session } from '@/lib/auth-client';
 import { toast } from 'sonner';
 import { usernameToAvatarFallback } from '@/lib/string';
+import Link from 'next/link';
 
 export function UserDropdown({ session }: { session: Session }) {
   const { user } = session;
+  const isAdmin = user.role === 'admin';
 
   return (
     <DropdownMenu>
@@ -48,6 +50,15 @@ export function UserDropdown({ session }: { session: Session }) {
             </div>
           </div>
         </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {isAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard">
+              <LayoutDashboard />
+              Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onSelect={async () => {
