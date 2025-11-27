@@ -88,6 +88,7 @@ export const verification = pgTable(
 );
 
 export const productENUM = pgEnum('product_enum', ['component', 'accessory']);
+export type ProductType = (typeof productENUM)['enumValues'][number];
 export const categoryProductENUM = pgEnum('category_product_enum', [
   'cpu',
   'motherboard',
@@ -103,6 +104,7 @@ export const categoryProductENUM = pgEnum('category_product_enum', [
   'headset',
   'speaker',
 ]);
+export type CategoryProductType = (typeof categoryProductENUM)['enumValues'][number];
 
 export const productsTable = pgTable('product', {
   id: uuid().primaryKey().defaultRandom(),

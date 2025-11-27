@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export function Hero() {
   return (
-    <section className="flex min-h-[calc(100vh-100px)] items-center justify-center p-8">
+    <section className="flex min-h-[calc(100vh-100px)] items-center justify-center">
       <div className="flex flex-1 flex-col items-start gap-4 text-left">
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-balance">
           Bangun PC Impianmu bersama{' '}

@@ -1,42 +1,73 @@
 import { adminProcedure, createTRPCRouter, publicProcedure } from '../init';
 import { productsTable } from '@/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { asc, desc, eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import {
   createProductSchema,
   deleteProductSchema,
   updateProductSchema,
 } from '../schema/product.schema';
+import z from 'zod';
+
+const limitProduct = z.number().min(1).max(100).default(10);
+const isPopularProduct = z.boolean().default(false).optional();
 
 export const productRouter = createTRPCRouter({
-  getAllProducts: publicProcedure.query(async ({ ctx }) => {
-    const products = await ctx.db.query.productsTable.findMany();
-    return products;
-  }),
+  getAllProducts: publicProcedure
+    .input(
+      z.object({
+        limit: limitProduct,
+        isPopular: isPopularProduct,
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const products = await ctx.db.query.productsTable.findMany({
+        limit: input.limit,
+        orderBy: input.isPopular ? [desc(productsTable.sold)] : [asc(productsTable.sold)],
+      });
+
+      return products;
+    }),
   getByCategory: publicProcedure
     .input(
-      createProductSchema.pick({
-        category: true,
-      })
+      createProductSchema
+        .pick({
+          category: true,
+        })
+        .extend({
+          limit: limitProduct,
+          isPopular: isPopularProduct,
+        })
     )
     .query(async ({ ctx, input }) => {
       const products = await ctx.db
         .select()
         .from(productsTable)
-        .where(eq(productsTable.category, input.category));
+        .limit(input.limit)
+        .where(eq(productsTable.category, input.category))
+        .orderBy(input.isPopular ? desc(productsTable.sold) : asc(productsTable.sold));
+
       return products;
     }),
   getByType: publicProcedure
     .input(
-      createProductSchema.pick({
-        type: true,
-      })
+      createProductSchema
+        .pick({
+          type: true,
+        })
+        .extend({
+          limit: limitProduct,
+          isPopular: isPopularProduct,
+        })
     )
     .query(async ({ ctx, input }) => {
       const products = await ctx.db
         .select()
         .from(productsTable)
-        .where(eq(productsTable.type, input.type));
+        .limit(input.limit)
+        .where(eq(productsTable.type, input.type))
+        .orderBy(input.isPopular ? desc(productsTable.sold) : asc(productsTable.sold));
+
       return products;
     }),
   createProduct: adminProcedure.input(createProductSchema).mutation(async ({ ctx, input }) => {

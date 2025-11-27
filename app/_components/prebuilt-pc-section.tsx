@@ -109,112 +109,108 @@ export function PrebuiltPCSection() {
   const activeConfig = categories.find((c) => c.id === activeCategory)!;
 
   return (
-    <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
-      <div className="bg-accent/20 absolute inset-0 rounded-full opacity-10 blur-3xl" />
+    <section className="overflow-hidden">
+      {/* Header */}
+      <div className="mb-16 text-center">
+        <Badge className="mb-2 scale-125">🌟 PC Rakitan Siap Pakai</Badge>
+        <h2 className="mb-6 text-5xl font-bold tracking-tight text-balance sm:text-6xl">
+          PC Siap Pakai
+        </h2>
+        <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+          Pilih kategori Anda dan jelajahi sistem yang dikonfigurasi oleh ahli. Setiap unit dirakit,
+          diuji, dan dioptimalkan untuk performa terbaik.
+        </p>
+      </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <Badge className="mb-2 scale-125">🌟 PC Rakitan Siap Pakai</Badge>
-          <h2 className="mb-6 text-5xl font-bold tracking-tight text-balance sm:text-6xl">
-            PC Siap Pakai
-          </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Pilih kategori Anda dan jelajahi sistem yang dikonfigurasi oleh ahli. Setiap unit
-            dirakit, diuji, dan dioptimalkan untuk performa terbaik.
-          </p>
-        </div>
-
-        {/* Category Tabs with Toggle Animation */}
-        <div className="mb-12 flex flex-col flex-wrap justify-center gap-4 sm:flex-row">
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={cn(
-                activeCategory === category.id
-                  ? 'bg-accent text-accent-foreground scale-105 shadow-lg'
-                  : 'bg-card text-muted-foreground hover:bg-secondary border-border border'
-              )}
-              size="lg"
-            >
-              {category.icon}
-              {category.name}
-            </Button>
-          ))}
-          <Button size="lg" asChild>
-            <Link href="/pc-rakitan">
-              Lihat Semua PC Rakitan <MoveRight />
-            </Link>
+      {/* Category Tabs with Toggle Animation */}
+      <div className="mb-12 flex flex-col flex-wrap justify-center gap-4 sm:flex-row">
+        {categories.map((category) => (
+          <Button
+            key={category.id}
+            onClick={() => setActiveCategory(category.id)}
+            className={cn(
+              activeCategory === category.id
+                ? 'bg-accent text-accent-foreground scale-105 shadow-lg'
+                : 'bg-card text-muted-foreground hover:bg-secondary border-border border'
+            )}
+            size="lg"
+          >
+            {category.icon}
+            {category.name}
           </Button>
+        ))}
+        <Button size="lg" asChild>
+          <Link href="/pc-rakitan">
+            Lihat Semua PC Rakitan <MoveRight />
+          </Link>
+        </Button>
+      </div>
+
+      {/* Active Category Display with Animated Transition */}
+      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        {/* Left Side - Specs & Features */}
+        <div className="animate-in fade-in space-y-8 duration-300">
+          <div>
+            <p className="text-primary mb-2 text-sm font-semibold">{activeConfig.tagline}</p>
+            <h3 className="mb-4 text-3xl font-bold">{activeConfig.name}</h3>
+            <p className="text-muted-foreground text-lg">{activeConfig.description}</p>
+          </div>
+
+          {/* Specs Grid */}
+          <div className="grid grid-cols-2 gap-4">
+            {activeConfig.specs.map((spec, index) => (
+              <div
+                key={index}
+                className="bg-card border-border hover:border-primary/50 rounded-lg border p-4 transition-colors"
+              >
+                <p className="text-muted-foreground text-xs tracking-wider uppercase">
+                  {spec.label}
+                </p>
+                <p className="text-primary mt-1 text-lg font-semibold">{spec.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Features */}
+          <div className="space-y-3">
+            <p className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
+              Fitur Utama
+            </p>
+            <ul className="space-y-2">
+              {activeConfig.features.map((feature, index) => (
+                <li key={index} className="flex items-center gap-3 text-sm">
+                  <Check className="text-primary h-4 w-4 shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="border-border border-t pt-4">
+            <p className="text-primary text-2xl font-bold">
+              {new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+              }).format(activeConfig.price)}
+            </p>
+          </div>
         </div>
 
-        {/* Active Category Display with Animated Transition */}
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          {/* Left Side - Specs & Features */}
-          <div className="animate-in fade-in space-y-8 duration-300">
-            <div>
-              <p className="text-primary mb-2 text-sm font-semibold">{activeConfig.tagline}</p>
-              <h3 className="mb-4 text-3xl font-bold">{activeConfig.name}</h3>
-              <p className="text-muted-foreground text-lg">{activeConfig.description}</p>
-            </div>
-
-            {/* Specs Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {activeConfig.specs.map((spec, index) => (
-                <div
-                  key={index}
-                  className="bg-card border-border hover:border-primary/50 rounded-lg border p-4 transition-colors"
-                >
-                  <p className="text-muted-foreground text-xs tracking-wider uppercase">
-                    {spec.label}
-                  </p>
-                  <p className="text-primary mt-1 text-lg font-semibold">{spec.value}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Features */}
-            <div className="space-y-3">
-              <p className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
-                Fitur Utama
-              </p>
-              <ul className="space-y-2">
-                {activeConfig.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-3 text-sm">
-                    <Check className="text-primary h-4 w-4 shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="border-border border-t pt-4">
-              <p className="text-primary text-2xl font-bold">
-                {new Intl.NumberFormat('id-ID', {
-                  style: 'currency',
-                  currency: 'IDR',
-                }).format(activeConfig.price)}
-              </p>
-            </div>
-          </div>
-
-          {/* Right Side - Visual Showcase */}
-          <div className="relative">
-            <div className="border-border bg-card/50 group hover:border-accent/50 relative flex h-96 items-center justify-center overflow-hidden rounded-xl border-2 p-8 transition-colors">
-              <div className="relative z-10 space-y-4 text-center">
-                <div className="bg-accent text-accent-foreground mx-auto flex h-40 w-40 animate-bounce items-center justify-center rounded-lg">
-                  {activeConfig.icon}
-                </div>
-                <p className="text-sm font-semibold">{activeConfig.name}</p>
-                <p className="text-muted-foreground text-xs">Klik untuk melihat di toko</p>
+        {/* Right Side - Visual Showcase */}
+        <div className="relative">
+          <div className="border-border bg-card/50 group hover:border-accent/50 relative flex h-96 items-center justify-center overflow-hidden rounded-xl border-2 p-8 transition-colors">
+            <div className="relative z-10 space-y-4 text-center">
+              <div className="bg-accent text-accent-foreground mx-auto flex h-40 w-40 animate-bounce items-center justify-center rounded-lg">
+                {activeConfig.icon}
               </div>
+              <p className="text-sm font-semibold">{activeConfig.name}</p>
+              <p className="text-muted-foreground text-xs">Klik untuk melihat di toko</p>
             </div>
-
-            <Button size="lg" className="mt-8 w-full">
-              Tambahkan ke Keranjang <ShoppingCart />
-            </Button>
           </div>
+
+          <Button size="lg" className="mt-8 w-full">
+            Tambahkan ke Keranjang <ShoppingCart />
+          </Button>
         </div>
       </div>
     </section>
