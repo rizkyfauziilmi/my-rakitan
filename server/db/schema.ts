@@ -104,7 +104,7 @@ export const categoryProductENUM = pgEnum('category_product_enum', [
   'speaker',
 ]);
 
-export const product = pgTable('product', {
+export const productsTable = pgTable('product', {
   id: uuid().primaryKey().defaultRandom(),
   name: text('name').notNull(),
   description: text('description'),

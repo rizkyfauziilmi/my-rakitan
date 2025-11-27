@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import { product } from './schema';
 import { db } from '.';
+import { productsTable } from './schema';
 
 async function main() {
-  const products: (typeof product.$inferInsert)[] = [
+  const products: (typeof productsTable.$inferInsert)[] = [
     // Components
     {
       name: 'Intel Core i9-13900K',
@@ -239,11 +239,11 @@ async function main() {
   ];
 
   console.log('delete all products...');
-  await db.delete(product);
+  await db.delete(productsTable);
   console.log('all products deleted');
 
   console.log('inserting products...');
-  await db.insert(product).values(products);
+  await db.insert(productsTable).values(products);
   console.log('New products created!');
 
   console.log('Seeding completed.');
