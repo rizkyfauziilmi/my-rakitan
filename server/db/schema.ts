@@ -1,5 +1,14 @@
 import { relations } from 'drizzle-orm';
-import { pgTable, text, timestamp, boolean, index } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  index,
+  integer,
+  pgEnum,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -77,6 +86,40 @@ export const verification = pgTable(
   },
   (table) => [index('verification_identifier_idx').on(table.identifier)]
 );
+
+export const productENUM = pgEnum('product_enum', ['component', 'accessory']);
+export const categoryProductENUM = pgEnum('category_product_enum', [
+  'cpu',
+  'motherboard',
+  'ram',
+  'storage',
+  'gpu',
+  'psu',
+  'casing',
+  'cooling',
+  'monitor',
+  'keyboard',
+  'mouse',
+  'headset',
+  'speaker',
+]);
+
+export const product = pgTable('product', {
+  id: uuid().primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  description: text('description'),
+  imageUrl: text('image_url'),
+  price: integer().notNull(),
+  stock: integer().default(0).notNull(),
+  sold: integer().default(0).notNull(),
+  type: productENUM('type').notNull(),
+  category: categoryProductENUM('category').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
 
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
