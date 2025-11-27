@@ -5,6 +5,7 @@ import { Topbar } from './_components/topbar';
 import Footer from './_components/footer';
 import { Open_Sans } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
+import { TRPCReactProvider } from '@/server/trpc/client';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <TRPCReactProvider>
       <html lang="id" className={openSans.className} suppressHydrationWarning>
         <head />
         <body>
@@ -38,6 +39,6 @@ export default function RootLayout({
           </ThemeProvider>
         </body>
       </html>
-    </>
+    </TRPCReactProvider>
   );
 }
