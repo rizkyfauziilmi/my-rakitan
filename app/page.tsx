@@ -1,5 +1,3 @@
-'use client';
-
 import { Hero } from './_components/hero';
 import { CustomBuildSection } from './_components/custom-build-section';
 import { PrebuiltPCSection } from './_components/prebuilt-pc-section';
