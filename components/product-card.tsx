@@ -74,20 +74,21 @@ export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                 <span className="capitalize">{category}</span>
               </CardDescription>
             </div>
-            <span className="text-primary shrink-0 text-sm font-semibold">
-              {new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0,
-              }).format(price)}
-            </span>
           </div>
         </CardHeader>
 
         {/* Content */}
-        <CardContent className="py-4">
+        <CardContent>
+          <span className="text-primary shrink-0 font-semibold">
+            {new Intl.NumberFormat('id-ID', {
+              style: 'currency',
+              currency: 'IDR',
+              minimumFractionDigits: 0,
+            }).format(price)}
+          </span>
+
           {description && (
-            <p className="text-muted-foreground line-clamp-2 text-sm">{description}</p>
+            <p className="text-muted-foreground line-clamp-3 text-sm">{description}</p>
           )}
 
           {/* Stock Status */}

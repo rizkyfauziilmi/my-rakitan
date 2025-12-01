@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Cpu, Headphones, ShoppingCart } from 'lucide-react';
+import { ArrowRight, Cpu, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
@@ -9,16 +9,8 @@ import { productENUM, ProductType } from '@/server/db/schema';
 import { useQuery } from '@tanstack/react-query';
 import { useTRPC } from '@/server/trpc/client';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemHeader,
-  ItemTitle,
-} from '@/components/ui/item';
-import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
+import { ProductCard } from '@/components/product-card';
 
 export function ComponentsAccessoriesSection() {
   const [activeCategory, setActiveCategory] = useState<ProductType>('component');
@@ -32,24 +24,26 @@ export function ComponentsAccessoriesSection() {
     })
   );
 
-  const productTypes = productENUM.enumValues.map((type) => {
-    let icon;
-    let name;
-    switch (type) {
-      case 'component':
-        icon = <Cpu />;
-        name = 'Komponen';
-        break;
-      case 'accessory':
-        icon = <Headphones />;
-        name = 'Aksesori';
-        break;
-      default:
-        icon = <></>;
-        name = type;
-    }
-    return { type, icon, name };
-  });
+  const productTypes = productENUM.enumValues
+    .filter((type) => type === 'component' || type === 'accessory')
+    .map((type) => {
+      let icon;
+      let name;
+      switch (type) {
+        case 'component':
+          icon = <Cpu />;
+          name = 'Komponen';
+          break;
+        case 'accessory':
+          icon = <Headphones />;
+          name = 'Aksesori';
+          break;
+        default:
+          icon = <></>;
+          name = type;
+      }
+      return { type, icon, name };
+    });
 
   return (
     <section className="min-h-screen">
@@ -100,43 +94,10 @@ export function ComponentsAccessoriesSection() {
           ]}
           className="w-full"
         >
-          <CarouselContent className="-ml-1">
+          <CarouselContent className="-ml-2">
             {data.map((product) => (
-              <CarouselItem key={product.id} className="pl-1 md:basis-1/2 lg:basis-1/4">
-                <Item key={product.id} variant="outline">
-                  <ItemHeader>
-                    <Image
-                      src={product.imageUrl ?? ''}
-                      alt={product.name}
-                      width={128}
-                      height={128}
-                      className="aspect-square w-full rounded-sm object-cover"
-                    />
-                  </ItemHeader>
-                  <ItemContent>
-                    <ItemTitle className="line-clamp-1">{product.name}</ItemTitle>
-                    <ItemDescription>
-                      {new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
-                      }).format(product.price)}
-                    </ItemDescription>
-                  </ItemContent>
-                  <ItemContent className="text-right">
-                    <ItemDescription className="text-xs">
-                      Sisa stock: {product.stock ?? 0}
-                    </ItemDescription>
-                    <ItemDescription className="text-xs">
-                      Terjual: {product.sold ?? 0}
-                    </ItemDescription>
-                  </ItemContent>
-                  <ItemActions className="w-full">
-                    <Button className="w-full" disabled={product.stock === 0}>
-                      <ShoppingCart />
-                      {product.stock === 0 ? 'Stok Habis' : 'Tambah ke Keranjang'}
-                    </Button>
-                  </ItemActions>
-                </Item>
+              <CarouselItem key={product.id} className="basis-1/3 pl-2">
+                <ProductCard product={product} />
               </CarouselItem>
             ))}
           </CarouselContent>
