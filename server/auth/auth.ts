@@ -4,6 +4,7 @@ import { db } from '../db';
 import { admin } from 'better-auth/plugins';
 
 export const auth = betterAuth({
+  secret: process.env.BETTER_AUTH_SECRET as string,
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),

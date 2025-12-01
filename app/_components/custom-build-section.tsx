@@ -40,7 +40,7 @@ export function CustomBuildSection() {
   };
 
   const { data, isLoading, error } = useQuery(
-    trpc.productRouter.getByCategory.queryOptions({
+    trpc.product.getByCategory.queryOptions({
       category: selectedComponent,
       limit: 2,
     })

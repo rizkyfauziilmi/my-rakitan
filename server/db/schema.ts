@@ -87,9 +87,10 @@ export const verification = pgTable(
   (table) => [index('verification_identifier_idx').on(table.identifier)]
 );
 
-export const productENUM = pgEnum('product_enum', ['component', 'accessory']);
+export const productENUM = pgEnum('product_enum', ['component', 'accessory', 'prebuilt']);
 export type ProductType = (typeof productENUM)['enumValues'][number];
 export const categoryProductENUM = pgEnum('category_product_enum', [
+  // components
   'cpu',
   'motherboard',
   'ram',
@@ -98,13 +99,65 @@ export const categoryProductENUM = pgEnum('category_product_enum', [
   'psu',
   'casing',
   'cooling',
+  // accessories
   'monitor',
   'keyboard',
   'mouse',
   'headset',
   'speaker',
+  // prebuilts
+  'gaming_pc',
+  'workstation_pc',
+  'office_pc',
+  'home_pc',
+  'creator_pc',
+  'server_pc',
+  'mini_pc',
+  'budget_pc',
+  'highend_pc',
 ]);
 export type CategoryProductType = (typeof categoryProductENUM)['enumValues'][number];
+export const filteredCategories = (type: ProductType) => {
+  const componentCategories: CategoryProductType[] = [
+    'cpu',
+    'motherboard',
+    'ram',
+    'storage',
+    'gpu',
+    'psu',
+    'casing',
+    'cooling',
+  ];
+  const accessoryCategories: CategoryProductType[] = [
+    'monitor',
+    'keyboard',
+    'mouse',
+    'headset',
+    'speaker',
+  ];
+  const prebuiltCategories: CategoryProductType[] = [
+    'gaming_pc',
+    'workstation_pc',
+    'office_pc',
+    'home_pc',
+    'creator_pc',
+    'server_pc',
+    'mini_pc',
+    'budget_pc',
+    'highend_pc',
+  ];
+
+  switch (type) {
+    case 'component':
+      return componentCategories;
+    case 'accessory':
+      return accessoryCategories;
+    case 'prebuilt':
+      return prebuiltCategories;
+    default:
+      return [];
+  }
+};
 
 export const productsTable = pgTable('product', {
   id: uuid().primaryKey().defaultRandom(),

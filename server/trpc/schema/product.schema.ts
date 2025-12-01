@@ -3,12 +3,15 @@ import z from 'zod';
 
 export const createProductSchema = z.object({
   name: z.string().min(1, 'Nama produk tidak boleh kosong'),
-  description: z.string().optional(),
+  description: z.string().max(150, 'Deskripsi produk maksimal 150 karakter').optional(),
   imageUrl: z.url('URL gambar tidak valid').optional(),
-  price: z.number().min(0, 'Harga produk tidak boleh negatif'),
-  stock: z.number().min(0, 'Stok produk tidak boleh negatif').optional(),
-  type: z.enum(productENUM.enumValues),
-  category: z.enum(categoryProductENUM.enumValues),
+  price: z
+    .number()
+    .min(0, 'Harga produk tidak boleh negatif')
+    .min(1000, 'Harga produk minimal Rp 1.000'),
+  stock: z.number().min(0, 'Stok produk tidak boleh negatif'),
+  type: z.enum(productENUM.enumValues, 'Tipe produk tidak valid'),
+  category: z.enum(categoryProductENUM.enumValues, 'Kategori produk tidak valid'),
 });
 
 export const updateProductSchema = createProductSchema.partial().extend({

@@ -1,22 +1,27 @@
-import { HydrateClient, prefetch, trpc } from '@/server/trpc/server';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ClientTest } from './_components/client-test';
+import { prefetch, trpc } from '@/server/trpc/server';
+import { ProductTable } from './_components/product-table';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+
+export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage() {
-  prefetch(
-    trpc.hello.queryOptions({
-      text: 'from admin dashboard',
-    })
-  );
+  prefetch(trpc.product.getAllProducts.queryOptions({}));
 
   return (
-    <HydrateClient>
-      <ErrorBoundary fallback={<div>Something went wrong.</div>}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ClientTest />
-        </Suspense>
-      </ErrorBoundary>
-    </HydrateClient>
+    <Card>
+      <CardHeader>
+        <CardTitle>Dashboard Admin</CardTitle>
+        <CardDescription>Ringkasan data produk di toko Anda.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ErrorBoundary fallback={<div>Terjadi kesalahan saat memuat data.</div>}>
+          <Suspense fallback={<div>Memuat data...</div>}>
+            <ProductTable />
+          </Suspense>
+        </ErrorBoundary>
+      </CardContent>
+    </Card>
   );
 }

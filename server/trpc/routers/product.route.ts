@@ -9,7 +9,7 @@ import {
 } from '../schema/product.schema';
 import z from 'zod';
 
-const limitProduct = z.number().min(1).max(100).default(10);
+const limitProduct = z.number().min(1).max(100).optional();
 const isPopularProduct = z.boolean().default(false).optional();
 
 export const productRouter = createTRPCRouter({
@@ -28,6 +28,19 @@ export const productRouter = createTRPCRouter({
 
       return products;
     }),
+  getProductById: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const product = await ctx.db.query.productsTable.findFirst({
+        where: eq(productsTable.id, input.id),
+      });
+
+      return product;
+    }),
   getByCategory: publicProcedure
     .input(
       createProductSchema
@@ -43,7 +56,7 @@ export const productRouter = createTRPCRouter({
       const products = await ctx.db
         .select()
         .from(productsTable)
-        .limit(input.limit)
+        .limit(input.limit ? input.limit : 0)
         .where(eq(productsTable.category, input.category))
         .orderBy(input.isPopular ? desc(productsTable.sold) : asc(productsTable.sold));
 
@@ -64,7 +77,7 @@ export const productRouter = createTRPCRouter({
       const products = await ctx.db
         .select()
         .from(productsTable)
-        .limit(input.limit)
+        .limit(input.limit ? input.limit : 0)
         .where(eq(productsTable.type, input.type))
         .orderBy(input.isPopular ? desc(productsTable.sold) : asc(productsTable.sold));
 

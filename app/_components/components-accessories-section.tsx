@@ -25,7 +25,7 @@ export function ComponentsAccessoriesSection() {
   const trpc = useTRPC();
 
   const { data, isLoading, error } = useQuery(
-    trpc.productRouter.getByType.queryOptions({
+    trpc.product.getByType.queryOptions({
       type: activeCategory,
       limit: 15,
       isPopular: true,
