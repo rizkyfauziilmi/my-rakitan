@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { db } from '.';
 import { productsTable } from './schema';
+import { randomInt } from '@/lib/number';
 
 async function main() {
   const products: (typeof productsTable.$inferInsert)[] = [
@@ -14,6 +15,7 @@ async function main() {
       price: 9_500_000,
       type: 'component',
       category: 'cpu',
+      stock: randomInt(0, 100),
     },
     {
       name: 'AMD Ryzen 9 7900X',
@@ -22,6 +24,7 @@ async function main() {
       price: 8_200_000,
       type: 'component',
       category: 'cpu',
+      stock: randomInt(0, 100),
     },
     {
       name: 'ASUS ROG Strix Z790-E Gaming',
@@ -32,6 +35,7 @@ async function main() {
       price: 6_000_000,
       type: 'component',
       category: 'motherboard',
+      stock: randomInt(0, 100),
     },
     {
       name: 'MSI MPG X670E Carbon',
@@ -41,6 +45,7 @@ async function main() {
       price: 5_700_000,
       type: 'component',
       category: 'motherboard',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Corsair Vengeance DDR5 32GB (2x16GB) 6000MHz',
@@ -50,6 +55,7 @@ async function main() {
       price: 3_400_000,
       type: 'component',
       category: 'ram',
+      stock: randomInt(0, 100),
     },
     {
       name: 'G.Skill Trident Z5 RGB 32GB (2x16GB) DDR5 6400MHz',
@@ -58,6 +64,7 @@ async function main() {
       price: 4_200_000,
       type: 'component',
       category: 'ram',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Samsung 980 PRO 1TB NVMe PCIe 4.0',
@@ -67,6 +74,7 @@ async function main() {
       price: 1_900_000,
       type: 'component',
       category: 'storage',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Seagate Barracuda 2TB HDD 7200RPM',
@@ -76,6 +84,7 @@ async function main() {
       price: 750_000,
       type: 'component',
       category: 'storage',
+      stock: randomInt(0, 100),
     },
     {
       name: 'NVIDIA GeForce RTX 4090 24GB',
@@ -85,6 +94,7 @@ async function main() {
       price: 45_000_000,
       type: 'component',
       category: 'gpu',
+      stock: randomInt(0, 100),
     },
     {
       name: 'NVIDIA GeForce RTX 4070 Ti 12GB',
@@ -94,6 +104,7 @@ async function main() {
       price: 12_500_000,
       type: 'component',
       category: 'gpu',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Corsair RM850x (850W) Modular',
@@ -103,6 +114,7 @@ async function main() {
       price: 2_200_000,
       type: 'component',
       category: 'psu',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Seasonic Focus GX-750 (750W) 80+ Gold',
@@ -111,6 +123,7 @@ async function main() {
       price: 1_800_000,
       type: 'component',
       category: 'psu',
+      stock: randomInt(0, 100),
     },
     {
       name: 'NZXT H510',
@@ -120,6 +133,7 @@ async function main() {
       price: 900_000,
       type: 'component',
       category: 'casing',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Cooler Master NR200P',
@@ -128,6 +142,7 @@ async function main() {
       price: 1_600_000,
       type: 'component',
       category: 'casing',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Noctua NH-D15',
@@ -137,6 +152,7 @@ async function main() {
       price: 1_200_000,
       type: 'component',
       category: 'cooling',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Corsair iCUE H100i RGB (240mm) AIO',
@@ -146,6 +162,7 @@ async function main() {
       price: 1_500_000,
       type: 'component',
       category: 'cooling',
+      stock: randomInt(0, 100),
     },
 
     // Accessories
@@ -157,6 +174,7 @@ async function main() {
       price: 8_900_000,
       type: 'accessory',
       category: 'monitor',
+      stock: randomInt(0, 100),
     },
     {
       name: 'LG UltraGear 27GN950 4K 144Hz',
@@ -166,6 +184,7 @@ async function main() {
       price: 12_000_000,
       type: 'accessory',
       category: 'monitor',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Keychron K2 (Hot-swappable) - Tenkeyless',
@@ -175,6 +194,7 @@ async function main() {
       price: 1_200_000,
       type: 'accessory',
       category: 'keyboard',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Razer Huntsman Mini 60%',
@@ -183,6 +203,7 @@ async function main() {
       price: 1_450_000,
       type: 'accessory',
       category: 'keyboard',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Logitech G502 HERO',
@@ -192,6 +213,7 @@ async function main() {
       price: 900_000,
       type: 'accessory',
       category: 'mouse',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Razer DeathAdder V2',
@@ -201,6 +223,7 @@ async function main() {
       price: 850_000,
       type: 'accessory',
       category: 'mouse',
+      stock: randomInt(0, 100),
     },
     {
       name: 'SteelSeries Arctis 7 (Wireless)',
@@ -209,6 +232,7 @@ async function main() {
       price: 1_700_000,
       type: 'accessory',
       category: 'headset',
+      stock: randomInt(0, 100),
     },
     {
       name: 'HyperX Cloud II',
@@ -218,6 +242,7 @@ async function main() {
       price: 1_000_000,
       type: 'accessory',
       category: 'headset',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Edifier R1280T',
@@ -227,6 +252,7 @@ async function main() {
       price: 1_200_000,
       type: 'accessory',
       category: 'speaker',
+      stock: randomInt(0, 100),
     },
     {
       name: 'Razer Goliathus Extended Chroma',
@@ -235,6 +261,7 @@ async function main() {
       price: 550_000,
       type: 'accessory',
       category: 'mouse',
+      stock: randomInt(0, 100),
     },
   ];
 

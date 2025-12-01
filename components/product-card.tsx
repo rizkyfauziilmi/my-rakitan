@@ -14,27 +14,35 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { productsTable } from '@/server/db/schema';
 import { ImageOff, ShoppingCart } from 'lucide-react';
+import { useCartStore } from '@/store/cart.store';
+import { authClient } from '@/lib/auth-client';
 
 interface ProductCardProps {
   product: typeof productsTable.$inferSelect;
   isDemo?: boolean;
-  onAddToCart?: (productId: string) => void;
 }
 
 export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
-  ({ product, isDemo = false, onAddToCart }, ref) => {
+  ({ product, isDemo = false }, ref) => {
     const { id, name, description, price, stock, sold, category, type, imageUrl } = product;
+    const addToCart = useCartStore((state) => state.addToCart);
+    const products = useCartStore((state) => state.products);
+    const { data: session } = authClient.useSession();
+
+    const currentCartItem = products.find((item) => item.id === id);
 
     const [imageError, setImageError] = useState(false);
     const isOutOfStock = stock === 0;
 
     const handleAddToCart = async () => {
-      if (isDemo || !onAddToCart) return;
+      if (isDemo) return;
 
-      onAddToCart(id);
+      addToCart(product);
     };
 
     const isEventDisabled = isDemo;
+    const isStockInsufficient =
+      currentCartItem !== undefined ? currentCartItem.quantity >= stock : false;
 
     return (
       <Card
@@ -105,17 +113,19 @@ export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
         </CardContent>
 
         {/* Footer with Add to Cart Button */}
-        <CardFooter className="gap-2 border-t">
-          <Button
-            onClick={handleAddToCart}
-            disabled={isOutOfStock || isEventDisabled}
-            className="flex-1"
-            variant={isEventDisabled ? 'outline' : 'default'}
-          >
-            {!isOutOfStock && <ShoppingCart />}
-            {isOutOfStock ? 'Tidak Tersedia' : 'Tambah ke Keranjang'}
-          </Button>
-        </CardFooter>
+        {session?.user.role !== 'admin' && (
+          <CardFooter className="gap-2 border-t">
+            <Button
+              onClick={handleAddToCart}
+              disabled={isOutOfStock || isEventDisabled || isStockInsufficient}
+              className="flex-1"
+              variant={isEventDisabled ? 'outline' : 'default'}
+            >
+              {!isOutOfStock && <ShoppingCart />}
+              {isOutOfStock ? 'Tidak Tersedia' : 'Tambah ke Keranjang'}
+            </Button>
+          </CardFooter>
+        )}
 
         {/* Demo Mode Badge */}
         {isDemo && (

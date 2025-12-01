@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Bookmark, Gpu, Hammer, Keyboard, LucideLogIn, PcCase, ShoppingCart } from 'lucide-react';
+import { Bookmark, Gpu, Hammer, Keyboard, LucideLogIn, PcCase } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,10 +13,11 @@ import {
 } from '@/components/ui/navigation-menu';
 import useIsMobile from '@/hooks/use-is-mobile';
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
 import { ModeToggle } from '@/components/mode-toggle';
 import { authClient } from '@/lib/auth-client';
 import { UserDropdown } from '@/components/user-dropdown';
+import { CartDrawer } from './cart-drawer';
+import { ButtonCounter } from '@/components/button-counter';
 
 const components: {
   title: string;
@@ -119,45 +120,15 @@ export function NavBar() {
               </Link>
             </Button>
           )}
-          <ButtonCounter icon={<ShoppingCart />} count={2} />
-          <ButtonCounter icon={<Bookmark />} count={5} />
+          {session?.user.role !== 'admin' && (
+            <>
+              <CartDrawer />
+              <ButtonCounter icon={<Bookmark />} count={5} />
+            </>
+          )}
         </div>
       </div>
     </nav>
-  );
-}
-
-function ButtonCounter({
-  icon,
-  count,
-  variant = 'default',
-}: {
-  icon: React.ReactNode;
-  count: number;
-  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | null | undefined;
-}) {
-  return (
-    <Button variant="outline" size="icon" className="relative rounded-full">
-      {icon}
-      <CountItemBadge count={count} variant={variant} />
-    </Button>
-  );
-}
-
-function CountItemBadge({
-  count,
-  variant = 'default',
-}: {
-  count: number;
-  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | null | undefined;
-}) {
-  return (
-    <Badge
-      variant={variant}
-      className="absolute -top-2 -right-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
-    >
-      {count}
-    </Badge>
   );
 }
 

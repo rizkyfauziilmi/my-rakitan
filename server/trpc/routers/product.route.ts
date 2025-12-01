@@ -41,6 +41,60 @@ export const productRouter = createTRPCRouter({
 
       return product;
     }),
+
+  /**
+   * validateCartStock
+   *
+   * Accepts an array of items { id, quantity } and checks current DB stock for each.
+   * Returns an object { valid: boolean, mismatches: Array<{ id, requested, available, name? }> }
+   * so the client (React Query / TRPC consumer) can show appropriate feedback or adjust quantities.
+   */
+  validateCartStock: publicProcedure
+    .input(
+      z.object({
+        items: z
+          .array(
+            z.object({
+              id: z.string(),
+              quantity: z.number().min(1),
+            })
+          )
+          .min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      // For each requested item, fetch the current stock and compare.
+      const checks = await Promise.all(
+        input.items.map(async (it) => {
+          const p = await ctx.db.query.productsTable.findFirst({
+            columns: { id: true, stock: true, name: true },
+            where: eq(productsTable.id, it.id),
+          });
+
+          return {
+            id: it.id,
+            requested: it.quantity,
+            available: p ? p.stock : 0,
+            exists: !!p,
+            name: p?.name,
+          };
+        })
+      );
+
+      const mismatches = checks
+        .filter((c) => !c.exists || c.requested > c.available)
+        .map((c) => ({
+          id: c.id,
+          requested: c.requested,
+          available: c.available,
+          name: c.name,
+        }));
+
+      return {
+        valid: mismatches.length === 0,
+        mismatches,
+      };
+    }),
   getByCategory: publicProcedure
     .input(
       createProductSchema

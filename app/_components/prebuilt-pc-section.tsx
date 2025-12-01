@@ -191,6 +191,7 @@ export function PrebuiltPCSection() {
               {new Intl.NumberFormat('id-ID', {
                 style: 'currency',
                 currency: 'IDR',
+                minimumFractionDigits: 0,
               }).format(activeConfig.price)}
             </p>
           </div>

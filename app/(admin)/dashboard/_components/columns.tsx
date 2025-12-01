@@ -93,6 +93,7 @@ export const columns: ColumnDef<typeof productsTable.$inferSelect>[] = [
           {new Intl.NumberFormat('id-ID', {
             style: 'currency',
             currency: 'IDR',
+            minimumFractionDigits: 0,
           }).format(price)}
         </div>
       );
