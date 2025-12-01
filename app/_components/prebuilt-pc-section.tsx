@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type React from 'react';
-import { Gamepad2, Zap, PenTool, Check, ShoppingCart, Bot, MoveRight } from 'lucide-react';
+import { Gamepad2, Zap, PenTool, Check, Bot, MoveRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
@@ -191,6 +191,7 @@ export function PrebuiltPCSection() {
               {new Intl.NumberFormat('id-ID', {
                 style: 'currency',
                 currency: 'IDR',
+                minimumFractionDigits: 0,
               }).format(activeConfig.price)}
             </p>
           </div>
@@ -207,10 +208,6 @@ export function PrebuiltPCSection() {
               <p className="text-muted-foreground text-xs">Klik untuk melihat di toko</p>
             </div>
           </div>
-
-          <Button size="lg" className="mt-8 w-full">
-            Tambahkan ke Keranjang <ShoppingCart />
-          </Button>
         </div>
       </div>
     </section>

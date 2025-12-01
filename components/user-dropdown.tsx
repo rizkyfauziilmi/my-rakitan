@@ -50,14 +50,16 @@ export function UserDropdown({ session }: { session: Session }) {
             </div>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
         {isAdmin && (
-          <DropdownMenuItem asChild>
-            <Link href="/dashboard">
-              <LayoutDashboard />
-              Dashboard
-            </Link>
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard">
+                <LayoutDashboard />
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
+          </>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
