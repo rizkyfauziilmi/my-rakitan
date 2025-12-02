@@ -1,16 +1,14 @@
 import { MainLayout } from '@/components/_layouts/main-layout';
-import { getQueryClient, trpc } from '@/server/trpc/server';
+import { caller } from '@/server/trpc/server';
 import { redirect } from 'next/navigation';
 import { EditProdukForm } from './_components/edit-produk-form';
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const queryClient = getQueryClient();
-  const product = await queryClient.fetchQuery(
-    trpc.product.getProductById.queryOptions({
-      id,
-    })
-  );
+
+  const product = await caller.product.getProductById({
+    id,
+  });
 
   if (!product) {
     redirect('/dashboard');
