@@ -6,6 +6,7 @@ const publicRoutes = ['/'];
 const onlyUnauthenticatedRoutes = ['/login', '/signup'];
 const onlyAuthenticatedRoutes: string[] = [];
 const onlyAdminRoutes = ['/dashboard'];
+const onlyUserRoutes = ['/payment', '/transactions'];
 
 function matchesAny(pathname: string, routes: string[]) {
   return routes.some((r) => pathname === r || pathname.startsWith(r + '/'));
@@ -31,6 +32,17 @@ export async function proxy(request: NextRequest) {
   // redirect to login if route requires authentication and the user is not authenticated
   if (!session && matchesAny(pathname, onlyAuthenticatedRoutes)) {
     return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  // user route checks
+  if (matchesAny(pathname, onlyUserRoutes)) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    const role = session.user.role;
+    if (role !== 'user') {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
   }
 
   // admin route checks
