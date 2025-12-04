@@ -1,6 +1,5 @@
 'use client';
 
-import { formatRelativeToNow } from '@/lib/date';
 import { productsTable } from '@/server/db/schema';
 import { ColumnDef } from '@tanstack/react-table';
 import { Edit, ImageOff, Trash } from 'lucide-react';
@@ -22,8 +21,9 @@ import { DataTableColumnHeader } from './data-table-column-header';
 import { DeleteProductAlert } from './delete-product-alert';
 import { Spinner } from '@/components/ui/spinner';
 import { useRouter } from 'next/navigation';
+import { formatRelativeToNow } from '@/lib/date';
 
-export const columns: ColumnDef<typeof productsTable.$inferSelect>[] = [
+export const productColumns: ColumnDef<typeof productsTable.$inferSelect>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -170,7 +170,7 @@ export const columns: ColumnDef<typeof productsTable.$inferSelect>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Aksi</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => router.push(`/dashboard/produk/${id}/edit`)}>
                 <Edit />

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Bookmark, Gpu, Hammer, Keyboard, LucideLogIn, PcCase } from 'lucide-react';
+import { Gpu, Hammer, Keyboard, LucideLogIn, PcCase } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,7 +17,6 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { authClient } from '@/lib/auth-client';
 import { UserDropdown } from '@/components/user-dropdown';
 import { CartDrawer } from './cart-drawer';
-import { ButtonCounter } from '@/components/button-counter';
 
 const components: {
   title: string;
@@ -120,12 +119,7 @@ export function NavBar() {
               </Link>
             </Button>
           )}
-          {session?.user.role !== 'admin' && (
-            <>
-              <CartDrawer />
-              <ButtonCounter icon={<Bookmark />} count={5} />
-            </>
-          )}
+          {session?.user.role !== 'admin' && <CartDrawer />}
         </div>
       </div>
     </nav>

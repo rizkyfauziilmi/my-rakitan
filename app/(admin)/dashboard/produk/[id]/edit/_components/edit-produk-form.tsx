@@ -36,36 +36,38 @@ import {
   CategoryProductType,
   filteredCategories,
   productENUM,
-  productsTable,
   ProductType,
 } from '@/server/db/schema';
 import { useTRPC } from '@/server/trpc/client';
-import { useRouter } from 'next/navigation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { ProductCard } from '@/components/product-card';
 import Link from 'next/link';
 
-interface EditProdukFormProps {
-  product: typeof productsTable.$inferSelect;
-}
-
-export function EditProdukForm({ product }: EditProdukFormProps) {
-  const form = useForm<updateProductValues>({
-    resolver: zodResolver(updateProductSchema),
-    defaultValues: {
-      id: product.id,
-      name: product.name,
-      imageUrl: product.imageUrl ?? undefined,
-      description: product.description ?? undefined,
-      price: product.price,
-      stock: product.stock,
-      type: product.type,
-      category: product.category,
-    },
-  });
+export function EditProdukForm() {
+  const { id } = useParams<{ id: string }>();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { data: product } = useSuspenseQuery(
+    trpc.product.getProductById.queryOptions({
+      id,
+    })
+  );
+
+  const form = useForm<updateProductValues>({
+    resolver: zodResolver(updateProductSchema),
+    defaultValues: {
+      id: product?.id,
+      name: product?.name,
+      imageUrl: product?.imageUrl ?? undefined,
+      description: product?.description ?? undefined,
+      price: product?.price,
+      stock: product?.stock,
+      type: product?.type,
+      category: product?.category,
+    },
+  });
 
   const updateProductMutationOptions = trpc.product.updateProduct.mutationOptions({
     onError: (error) => {

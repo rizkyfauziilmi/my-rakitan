@@ -176,6 +176,66 @@ export const productsTable = pgTable('product', {
     .notNull(),
 });
 
+export const transactionStatusEnum = pgEnum('transaction_status_enum', [
+  'belum_dibayar',
+  'dikemas',
+  'dikirim',
+  'sampai',
+  'dibatalkan',
+]);
+export type TransactionStatusType = (typeof transactionStatusEnum)['enumValues'][number];
+export const transactionsTable = pgTable('transaction', {
+  id: uuid().primaryKey().defaultRandom(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+
+  totalPrice: integer('total_price').notNull(),
+  status: transactionStatusEnum('status').default('belum_dibayar').notNull(),
+  address: text('address').notNull(),
+  resi: text('resi'),
+
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+export const transactionItem = pgTable('transaction_item', {
+  id: uuid().primaryKey().defaultRandom(),
+
+  transactionId: uuid('transaction_id')
+    .notNull()
+    .references(() => transactionsTable.id, { onDelete: 'cascade' }),
+
+  productId: uuid('product_id')
+    .notNull()
+    .references(() => productsTable.id, { onDelete: 'cascade' }),
+
+  quantity: integer('quantity').notNull(),
+  price: integer('price').notNull(), // harga per item saat transaksi
+});
+
+export const transactionRelations = relations(transactionsTable, ({ one, many }) => ({
+  user: one(user, {
+    fields: [transactionsTable.userId],
+    references: [user.id],
+  }),
+  items: many(transactionItem),
+}));
+
+export const transactionItemRelations = relations(transactionItem, ({ one }) => ({
+  transaction: one(transactionsTable, {
+    fields: [transactionItem.transactionId],
+    references: [transactionsTable.id],
+  }),
+  product: one(productsTable, {
+    fields: [transactionItem.productId],
+    references: [productsTable.id],
+  }),
+}));
+
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),

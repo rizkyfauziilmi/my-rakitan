@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard, LogOut } from 'lucide-react';
+import { LayoutDashboard, LogOut, Package } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -50,13 +50,23 @@ export function UserDropdown({ session }: { session: Session }) {
             </div>
           </div>
         </DropdownMenuLabel>
-        {isAdmin && (
+        {isAdmin ? (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/dashboard">
                 <LayoutDashboard />
                 Dashboard
+              </Link>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/transactions">
+                <Package />
+                Transaksi Saya
               </Link>
             </DropdownMenuItem>
           </>

@@ -102,11 +102,11 @@ export const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
           {/* Stock Status */}
           <div className="mt-3 flex items-center justify-between text-xs">
             <span className="text-muted-foreground">
-              Stock: <span className="font-semibold">{stock}</span>
+              Stok: {isOutOfStock ? <span className="font-semibold">Habis</span> : stock}
             </span>
             {sold > 0 && (
               <span className="text-muted-foreground">
-                Sold: <span className="font-semibold">{sold}</span>
+                Terjual: <span className="font-semibold">{sold}</span>
               </span>
             )}
           </div>
