@@ -10,6 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { Spinner } from '@/components/ui/spinner';
 import { useTRPC } from '@/server/trpc/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -52,6 +53,7 @@ export function DeleteProductAlert({
     },
   });
   const deleteProductMutation = useMutation(deleteProductMutationOptions);
+  const isLoading = deleteProductMutation.isPending;
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -63,15 +65,17 @@ export function DeleteProductAlert({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Batal</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={() =>
               deleteProductMutation.mutate({
                 id: productId,
               })
             }
+            disabled={isLoading}
           >
-            Hapus
+            {isLoading && <Spinner />}
+            {isLoading ? 'Menghapus...' : 'Hapus'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

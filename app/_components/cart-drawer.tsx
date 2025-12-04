@@ -28,11 +28,16 @@ import { useQuery } from '@tanstack/react-query';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import { ProductImage } from '@/components/product-image';
+import { authClient } from '@/lib/auth-client';
+import AddressPicker from '@/components/address-picker-dialog';
 
 export const title = 'Drawer - Shopping Cart Example';
 
 export function CartDrawer() {
   const [open, setOpen] = useState(false);
+  const [openAddressDialog, setOpenAddressDialog] = useState(false);
+  const { data: session } = authClient.useSession();
+  const trpc = useTRPC();
 
   // Cart store selectors
   const items = useCartStore((s) => s.products);
@@ -63,7 +68,6 @@ export function CartDrawer() {
     quantity: Number(it.quantity),
   }));
   // validate stock with server when drawer opens
-  const trpc = useTRPC();
   // call server procedure to validate requested quantities vs DB stock
   const { data, isLoading, error, refetch } = useQuery(
     trpc.product.validateCartStock.queryOptions(
@@ -99,181 +103,203 @@ export function CartDrawer() {
   }, [data, deleteFromCart, items.length, open, refetch, updateQuantity]);
 
   return (
-    <Drawer direction="right" open={open} onOpenChange={setOpen}>
-      <ButtonCounter icon={<ShoppingCart />} count={totalItems} onClick={() => setOpen(true)} />
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Keranjang Belanja</DrawerTitle>
-          <DrawerDescription>
-            {noItems
-              ? 'Keranjang Anda kosong.'
-              : `Anda memiliki ${totalItems} item di keranjang Anda.`}
-          </DrawerDescription>
-        </DrawerHeader>
+    <>
+      <Drawer direction="right" open={open} onOpenChange={setOpen}>
+        <ButtonCounter icon={<ShoppingCart />} count={totalItems} onClick={() => setOpen(true)} />
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Keranjang Belanja</DrawerTitle>
+            <DrawerDescription>
+              {noItems
+                ? 'Keranjang Anda kosong.'
+                : `Anda memiliki ${totalItems} item di keranjang Anda.`}
+            </DrawerDescription>
+          </DrawerHeader>
 
-        {isLoading || error ? (
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Spinner />
-              </EmptyMedia>
-              <EmptyTitle>
-                {error ? 'Terjadi kesalahan saat memuat keranjang.' : 'Memuat keranjang...'}
-              </EmptyTitle>
-              <EmptyDescription>
-                {error
-                  ? 'Silakan coba lagi nanti.'
-                  : 'Mohon tunggu sebentar sementara kami memuat item keranjang Anda.'}
-              </EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        ) : noItems ? (
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <BrushCleaning />
-              </EmptyMedia>
-              <EmptyTitle>Keranjang Anda kosong</EmptyTitle>
-              <EmptyDescription>
-                Tambahkan beberapa produk ke keranjang Anda untuk memulai.
-              </EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent>
-              <Button size="sm">
-                <Link href="/produk">Telusuri Produk</Link>
-              </Button>
-            </EmptyContent>
-          </Empty>
-        ) : (
-          <div className="flex-1 space-y-4 overflow-y-auto p-4">
-            <div className="space-y-4">
-              {items.map((item) => (
-                <div key={item.id} className="flex gap-4 border-b pb-4">
-                  <div className="bg-muted h-20 w-20 shrink-0 overflow-hidden rounded-md">
-                    {item.imageUrl && <ProductImage imageUrl={item.imageUrl} altText={item.name} />}
-                  </div>
-
-                  <div className="flex-1 space-y-1">
-                    <h4 className="line-clamp-2 text-sm font-medium">{item.name}</h4>
-                    <p className="text-muted-foreground text-xs">
-                      {item.type},{' '}
-                      {String(item.category)
-                        .split('_')
-                        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                        .join(' ')}
-                    </p>
-
-                    <div className="mt-2 flex items-center justify-between">
-                      <div>
-                        <div className="text-sm font-medium">{formatIDR(item.price)}</div>
-                        <div className="text-muted-foreground text-xs">x {item.quantity}</div>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="h-8 w-8"
-                          aria-label={`Decrease quantity for ${item.name}`}
-                          onClick={() => {
-                            const next = item.quantity - 1;
-                            updateQuantity(item.id as string, next);
-                          }}
-                        >
-                          <Minus className="h-4 w-4" />
-                        </Button>
-
-                        <div className="px-2 text-sm font-medium">{item.quantity}</div>
-
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="h-8 w-8"
-                          aria-label={`Increase quantity for ${item.name}`}
-                          disabled={item.quantity >= item.stock}
-                          onClick={() => {
-                            if (item.quantity >= item.stock) {
-                              toast.error(`Stok untuk ${item.name} tidak mencukupi.`);
-                              return;
-                            }
-                            // addToCart will increment quantity for an existing item
-                            addToCart(item);
-                          }}
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="h-8 w-8"
-                          aria-label={`Remove ${item.name} from cart`}
-                          onClick={() => deleteFromCart(item.id as string)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
+          {isLoading || error ? (
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <Spinner />
+                </EmptyMedia>
+                <EmptyTitle>
+                  {error ? 'Terjadi kesalahan saat memuat keranjang.' : 'Memuat keranjang...'}
+                </EmptyTitle>
+                <EmptyDescription>
+                  {error
+                    ? 'Silakan coba lagi nanti.'
+                    : 'Mohon tunggu sebentar sementara kami memuat item keranjang Anda.'}
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          ) : noItems ? (
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <BrushCleaning />
+                </EmptyMedia>
+                <EmptyTitle>Keranjang Anda kosong</EmptyTitle>
+                <EmptyDescription>
+                  Tambahkan beberapa produk ke keranjang Anda untuk memulai.
+                </EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button size="sm">
+                  <Link href="/produk">Telusuri Produk</Link>
+                </Button>
+              </EmptyContent>
+            </Empty>
+          ) : (
+            <div className="flex-1 space-y-4 overflow-y-auto p-4">
+              <div className="space-y-4">
+                {items.map((item) => (
+                  <div key={item.id} className="flex gap-4 border-b pb-4">
+                    <div className="bg-muted h-20 w-20 shrink-0 overflow-hidden rounded-md">
+                      {item.imageUrl && (
+                        <ProductImage imageUrl={item.imageUrl} altText={item.name} />
+                      )}
                     </div>
 
-                    <p className="text-muted-foreground mt-2 text-xs">
-                      Subtotal: {formatIDR(item.price * item.quantity)}
-                    </p>
+                    <div className="flex-1 space-y-1">
+                      <h4 className="line-clamp-2 text-sm font-medium">{item.name}</h4>
+                      <p className="text-muted-foreground text-xs">
+                        {item.type},{' '}
+                        {String(item.category)
+                          .split('_')
+                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                          .join(' ')}
+                      </p>
+
+                      <div className="mt-2 flex items-center justify-between">
+                        <div>
+                          <div className="text-sm font-medium">{formatIDR(item.price)}</div>
+                          <div className="text-muted-foreground text-xs">x {item.quantity}</div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8"
+                            aria-label={`Decrease quantity for ${item.name}`}
+                            onClick={() => {
+                              const next = item.quantity - 1;
+                              updateQuantity(item.id as string, next);
+                            }}
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+
+                          <div className="px-2 text-sm font-medium">{item.quantity}</div>
+
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8"
+                            aria-label={`Increase quantity for ${item.name}`}
+                            disabled={item.quantity >= item.stock}
+                            onClick={() => {
+                              if (item.quantity >= item.stock) {
+                                toast.error(`Stok untuk ${item.name} tidak mencukupi.`);
+                                return;
+                              }
+                              // addToCart will increment quantity for an existing item
+                              addToCart(item);
+                            }}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8"
+                            aria-label={`Remove ${item.name} from cart`}
+                            onClick={() => deleteFromCart(item.id as string)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      <p className="text-muted-foreground mt-2 text-xs">
+                        Subtotal: {formatIDR(item.price * item.quantity)}
+                      </p>
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              <div className="space-y-2 pt-4">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Subtotal</span>
+                  <span>{formatIDR(subtotal)}</span>
                 </div>
-              ))}
-            </div>
 
-            <div className="space-y-2 pt-4">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>{formatIDR(subtotal)}</span>
-              </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Shipping</span>
+                  <span>{formatIDR(shipping)}</span>
+                </div>
 
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Shipping</span>
-                <span>{formatIDR(shipping)}</span>
-              </div>
-
-              <div className="flex justify-between border-t pt-2 font-medium">
-                <span>Total</span>
-                <span>{formatIDR(total)}</span>
+                <div className="flex justify-between border-t pt-2 font-medium">
+                  <span>Total</span>
+                  <span>{formatIDR(total)}</span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <DrawerFooter className="flex flex-col gap-2">
-          <Button
-            className="flex-1"
-            onClick={() => {
-              // Replace this with real checkout flow
-              // For now just close drawer
-              setOpen(false);
-              // for debugging you could alert or route to checkout page
-            }}
-          >
-            Checkout
-          </Button>
-          <div className="flex w-full items-center gap-2">
-            {!noItems && (
-              <Button
-                variant="secondary"
-                className="flex-1"
-                onClick={() => {
-                  clearCart();
-                }}
-              >
-                Kosongkan Keranjang
-              </Button>
-            )}
-            <DrawerClose asChild>
-              <Button variant="outline" className="flex-1">
-                Lanjut Belanja
-              </Button>
-            </DrawerClose>
-          </div>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+          <DrawerFooter className="flex flex-col gap-2">
+            <Button
+              className="flex-1"
+              onClick={() => {
+                if (!session || session.user.role !== 'user') {
+                  toast.error('Jadi pengguna untuk melanjutkan pembayaran', {
+                    action: !session ? (
+                      <Button asChild>
+                        <Link href="/login">Masuk sekarang</Link>
+                      </Button>
+                    ) : (
+                      <></>
+                    ),
+                  });
+                  return;
+                }
+
+                setOpenAddressDialog(true);
+              }}
+              disabled={noItems || isLoading || Boolean(error)}
+            >
+              Checkout
+            </Button>
+            <div className="flex w-full items-center gap-2">
+              {!noItems && (
+                <Button
+                  variant="secondary"
+                  className="flex-1"
+                  onClick={() => {
+                    clearCart();
+                  }}
+                >
+                  Kosongkan Keranjang
+                </Button>
+              )}
+              <DrawerClose asChild>
+                <Button variant="outline" className="flex-1">
+                  Lanjut Belanja
+                </Button>
+              </DrawerClose>
+            </div>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+      <AddressPicker
+        open={openAddressDialog}
+        setOpenChange={setOpenAddressDialog}
+        onSuccess={() => {
+          setOpen(false);
+        }}
+      />
+    </>
   );
 }
