@@ -1,6 +1,6 @@
 import { adminProcedure, createTRPCRouter, publicProcedure } from '../init';
-import { productsTable } from '@/server/db/schema';
-import { asc, desc, eq } from 'drizzle-orm';
+import { categoryProductENUM, productENUM, productsTable } from '@/server/db/schema';
+import { and, asc, desc, eq, ilike } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import {
   createProductSchema,
@@ -8,11 +8,43 @@ import {
   updateProductSchema,
 } from '../schema/product.schema';
 import z from 'zod';
+import { withCursorPagination } from 'drizzle-pagination';
 
 const limitProduct = z.number().min(1).max(100).optional();
 const isPopularProduct = z.boolean().default(false).optional();
 
 export const productRouter = createTRPCRouter({
+  getSearchProduct: publicProcedure
+    .input(
+      z.object({
+        query: z.string().optional(),
+        type: z.enum(productENUM.enumValues, 'Tipe produk tidak valid').optional(),
+        category: z.enum(categoryProductENUM.enumValues, 'Kategori produk tidak valid').optional(),
+        cursor: z.string().nullish(),
+        limit: z.number().min(1).max(50).default(8),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { cursor, limit, query, type, category } = input;
+
+      const data = await ctx.db.query.productsTable.findMany(
+        withCursorPagination({
+          where: and(
+            type ? eq(productsTable.type, type) : undefined,
+            category ? eq(productsTable.category, category) : undefined,
+            query ? ilike(productsTable.name, `%${query}%`) : undefined
+          ),
+          limit,
+          cursors: [[productsTable.id, 'asc', cursor ? cursor : undefined]],
+        })
+      );
+
+      return {
+        data,
+        nextCursor: data.length ? data[data.length - 1].id : null,
+      };
+    }),
+
   getAllProducts: publicProcedure
     .input(
       z.object({

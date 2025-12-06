@@ -189,7 +189,7 @@ export function CustomBuildSection() {
                     </ItemContent>
                     <ItemActions>
                       <Button size="sm" variant="outline" asChild>
-                        <Link href="/rakit-komputer-custom">Build Now</Link>
+                        <Link href="/pc-custom">Lihat Opsi Lengkap</Link>
                       </Button>
                     </ItemActions>
                   </Item>
@@ -223,7 +223,7 @@ export function CustomBuildSection() {
               className="from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 w-full gap-2 bg-linear-to-r text-white transition hover:scale-105 hover:transform"
               asChild
             >
-              <Link href="/rakit-komputer-custom">
+              <Link href="/pc-custom">
                 Mulai Rakit Komputer Kustom <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

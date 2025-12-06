@@ -140,7 +140,7 @@ export function PrebuiltPCSection() {
           </Button>
         ))}
         <Button size="lg" asChild>
-          <Link href="/pc-rakitan">
+          <Link href="/products?type=prebuilt">
             Lihat Semua PC Rakitan <MoveRight />
           </Link>
         </Button>
