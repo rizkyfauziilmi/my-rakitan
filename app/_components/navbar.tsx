@@ -26,28 +26,28 @@ const components: {
 }[] = [
   {
     title: 'Rakit Komputer Custom',
-    href: '/rakit-komputer-custom',
+    href: '/pc-custom',
     description:
       'Ciptakan komputer impian Anda dengan spesifikasi yang sepenuhnya dapat disesuaikan.',
     icon: <Hammer />,
   },
   {
-    title: 'PC Rakitan',
-    href: '/pc-rakitan',
+    title: 'PC Rakitan Siap Pakai',
+    href: '/products?type=prebuilt',
     description:
       'Pilihan komputer siap pakai yang dirancang untuk memenuhi kebutuhan Anda dengan performa terbaik.',
     icon: <PcCase />,
   },
   {
     title: 'Komponen PC',
-    href: '/komponen-pc',
+    href: '/products?type=component',
     description:
       'Temukan berbagai komponen berkualitas tinggi untuk meningkatkan performa PC Anda.',
     icon: <Gpu />,
   },
   {
     title: 'Aksesoris PC',
-    href: '/aksesoris-pc',
+    href: '/products?type=accessory',
     description: 'Lengkapi kebutuhan PC Anda dengan aksesoris terbaik dari kami.',
     icon: <Keyboard />,
   },

@@ -19,7 +19,7 @@ export function Hero() {
         </p>
         <div>
           <Button asChild>
-            <Link href="rakit-komputer-custom">Rakit Komputer Sekarang</Link>
+            <Link href="/pc-custom">Rakit Komputer Sekarang</Link>
           </Button>
           <Button variant="outline" className="ml-4" asChild>
             <Link href="/products">Lihat Produk Lainnya</Link>

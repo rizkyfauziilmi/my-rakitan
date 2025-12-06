@@ -6,7 +6,7 @@ const publicRoutes = ['/', '/products'];
 const onlyUnauthenticatedRoutes = ['/login', '/signup'];
 const onlyAuthenticatedRoutes: string[] = [];
 const onlyAdminRoutes = ['/dashboard'];
-const onlyUserRoutes = ['/payment', '/transactions'];
+const onlyUserRoutes = ['/payment', '/transactions', '/pc-custom'];
 
 function matchesAny(pathname: string, routes: string[]) {
   return routes.some((r) => pathname === r || pathname.startsWith(r + '/'));

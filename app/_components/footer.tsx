@@ -5,6 +5,7 @@ import { Instagram } from '@/components/svgs/instagram';
 import { LinkedIn } from '@/components/svgs/linked-in';
 import { XformerlyTwitter } from '@/components/svgs/x-twitter';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -31,24 +32,24 @@ export default function Footer() {
             <h4 className="mb-4 font-semibold">Produk</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="/pc-custom" className="hover:text-primary transition">
                   PC Custom
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
-                  PC Rakitan
-                </a>
+                <Link href="/products?type=prebuilt" className="hover:text-primary transition">
+                  PC Rakitan Siap Pakai
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="/products?type=component" className="hover:text-primary transition">
                   Komponen
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="/products?type=accessory" className="hover:text-primary transition">
                   Aksesoris
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

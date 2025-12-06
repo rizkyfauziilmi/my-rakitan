@@ -125,14 +125,11 @@ export function ComponentsAccessoriesSection() {
       </div>
 
       {/* CTA Buttons */}
-      <div className="flex flex-col justify-center gap-4 sm:flex-row">
+      <div className="mt-4 flex justify-center">
         <Button size="lg" asChild>
-          <Link href="/komponen">
+          <Link href="/products?type=component">
             Cari Semua Komponen <ArrowRight />
           </Link>
-        </Button>
-        <Button size="lg" variant="outline">
-          Lihat Panduan Belanja
         </Button>
       </div>
     </section>
