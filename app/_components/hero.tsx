@@ -22,7 +22,7 @@ export function Hero() {
             <Link href="rakit-komputer-custom">Rakit Komputer Sekarang</Link>
           </Button>
           <Button variant="outline" className="ml-4" asChild>
-            <Link href="komponen">Lihat Komponen</Link>
+            <Link href="/products">Lihat Produk Lainnya</Link>
           </Button>
         </div>
       </div>

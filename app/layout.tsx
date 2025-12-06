@@ -6,6 +6,7 @@ import Footer from './_components/footer';
 import { Open_Sans } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import { TRPCReactProvider } from '@/server/trpc/client';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -32,10 +33,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Topbar />
-            {children}
-            <Footer />
-            <Toaster />
+            <NuqsAdapter>
+              <Topbar />
+              {children}
+              <Footer />
+              <Toaster />
+            </NuqsAdapter>
           </ThemeProvider>
         </body>
       </html>

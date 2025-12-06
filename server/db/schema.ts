@@ -158,6 +158,11 @@ export const filteredCategories = (type: ProductType) => {
       return [];
   }
 };
+export const categoriesMap: Record<ProductType, CategoryProductType[]> = {
+  component: filteredCategories('component'),
+  accessory: filteredCategories('accessory'),
+  prebuilt: filteredCategories('prebuilt'),
+};
 
 export const productsTable = pgTable('product', {
   id: uuid().primaryKey().defaultRandom(),

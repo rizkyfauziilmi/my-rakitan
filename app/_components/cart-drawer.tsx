@@ -145,7 +145,7 @@ export function CartDrawer() {
               </EmptyHeader>
               <EmptyContent>
                 <Button size="sm">
-                  <Link href="/produk">Telusuri Produk</Link>
+                  <Link href="/products">Telusuri Produk</Link>
                 </Button>
               </EmptyContent>
             </Empty>

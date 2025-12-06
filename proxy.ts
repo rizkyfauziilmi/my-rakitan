@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { auth } from '@/server/auth/auth';
 
-const publicRoutes = ['/'];
+const publicRoutes = ['/', '/products'];
 const onlyUnauthenticatedRoutes = ['/login', '/signup'];
 const onlyAuthenticatedRoutes: string[] = [];
 const onlyAdminRoutes = ['/dashboard'];
