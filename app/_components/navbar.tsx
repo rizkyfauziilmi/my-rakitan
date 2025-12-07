@@ -17,6 +17,7 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { authClient } from '@/lib/auth-client';
 import { UserDropdown } from '@/components/user-dropdown';
 import { CartDrawer } from './cart-drawer';
+import { CustomPcDrawer } from './custom-pc-drawer';
 
 const components: {
   title: string;
@@ -120,6 +121,7 @@ export function NavBar() {
             </Button>
           )}
           {session?.user.role !== 'admin' && <CartDrawer />}
+          {session && session.user.role !== 'admin' && <CustomPcDrawer />}
         </div>
       </div>
     </nav>

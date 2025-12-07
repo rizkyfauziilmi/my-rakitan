@@ -160,12 +160,17 @@ export const productRouter = createTRPCRouter({
         })
     )
     .query(async ({ ctx, input }) => {
-      const products = await ctx.db
+      const query = ctx.db
         .select()
         .from(productsTable)
-        .limit(input.limit ? input.limit : 0)
         .where(eq(productsTable.type, input.type))
         .orderBy(input.isPopular ? desc(productsTable.sold) : asc(productsTable.sold));
+
+      if (input.limit) {
+        query.limit(input.limit);
+      }
+
+      const products = await query;
 
       return products;
     }),

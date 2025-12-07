@@ -24,12 +24,13 @@ import {
 import { ButtonCounter } from '@/components/button-counter';
 import { useCartStore } from '@/store/cart.store';
 import { useTRPC } from '@/server/trpc/client';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import { ProductImage } from '@/components/product-image';
 import { authClient } from '@/lib/auth-client';
 import AddressPicker from '@/components/address-picker-dialog';
+import { useRouter } from 'next/navigation';
 
 export const title = 'Drawer - Shopping Cart Example';
 
@@ -38,6 +39,8 @@ export function CartDrawer() {
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
   const { data: session } = authClient.useSession();
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   // Cart store selectors
   const items = useCartStore((s) => s.products);
@@ -79,6 +82,20 @@ export function CartDrawer() {
       }
     )
   );
+
+  const mutationOptions = trpc.transaction.createTransaction.mutationOptions({
+    onSuccess: ({ data, message }) => {
+      clearCart();
+      setOpenAddressDialog(false);
+      queryClient.invalidateQueries({ queryKey: trpc.transaction.pathKey() });
+      toast.success(message);
+      router.push(`/payment/${data.id}`);
+    },
+    onError: () => toast.error('Gagal membuat transaksi. Silakan coba lagi.'),
+  });
+
+  const createTransactionMutation = useMutation(mutationOptions);
+  const isLoadingMutation = createTransactionMutation.isPending;
 
   useEffect(() => {
     // only validate when drawer is opened and there are items
@@ -296,8 +313,16 @@ export function CartDrawer() {
       <AddressPicker
         open={openAddressDialog}
         setOpenChange={setOpenAddressDialog}
-        onSuccess={() => {
-          setOpen(false);
+        isLoading={isLoadingMutation}
+        onSubmit={(address) => {
+          createTransactionMutation.mutate({
+            items: items.map((item) => ({
+              productId: item.id,
+              qty: item.quantity,
+              price: item.price,
+            })),
+            address,
+          });
         }}
       />
     </>
