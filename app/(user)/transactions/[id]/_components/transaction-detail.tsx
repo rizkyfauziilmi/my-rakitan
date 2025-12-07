@@ -11,6 +11,7 @@ import {
   Package,
   PackageOpen,
   PackageX,
+  PcCase,
   Truck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ import { ProductImage } from '@/components/product-image';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export const iconMap: Record<TransactionStatusType, ReactNode> = {
   belum_dibayar: <CreditCard className="h-4 w-4 text-orange-500" />,
@@ -72,6 +74,9 @@ export function TransactionDetail() {
           transactionId: id,
         }),
       });
+      queryClient.invalidateQueries({
+        queryKey: trpc.customPc.pathKey(),
+      });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -86,6 +91,9 @@ export function TransactionDetail() {
         queryKey: trpc.transaction.getTransactionDetail.queryKey({
           transactionId: id,
         }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: trpc.product.pathKey(),
       });
     },
     onError: (error) => {
@@ -124,7 +132,7 @@ export function TransactionDetail() {
 
       {/* Status Card */}
       <Card className="border-border bg-card mb-6">
-        <CardContent className="p-6">
+        <CardContent className="space-y-4 p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className={`bg-muted rounded-lg p-3 ${colorMap[transaction.status]}`}>
@@ -188,6 +196,15 @@ export function TransactionDetail() {
               ) : null}
             </div>
           </div>
+          {transaction.customPcId && (
+            <Alert>
+              <PcCase />
+              <AlertTitle>Pembelian PC Custom terdeteksi</AlertTitle>
+              <AlertDescription>
+                Ini adalah pesanan PC Custom dengan ID: {transaction.customPcId}
+              </AlertDescription>
+            </Alert>
+          )}
         </CardContent>
       </Card>
 

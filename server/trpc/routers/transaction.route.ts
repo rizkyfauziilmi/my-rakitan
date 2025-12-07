@@ -1,6 +1,11 @@
 import { createTRPCRouter, userProcedure, adminProcedure } from '../init';
-import { eq, sql } from 'drizzle-orm';
-import { transactionItem, transactionsTable, productsTable } from '@/server/db/schema';
+import { and, eq, sql } from 'drizzle-orm';
+import {
+  transactionItem,
+  transactionsTable,
+  productsTable,
+  customPcTable,
+} from '@/server/db/schema';
 import { TRPCError } from '@trpc/server';
 import {
   changeResiSchema,
@@ -13,10 +18,52 @@ export const transactionRouter = createTRPCRouter({
   createTransaction: userProcedure
     .input(createTransactionSchema)
     .mutation(async ({ ctx, input }) => {
-      const items = input.items;
+      let items = input.items;
 
+      // --------------------------------------------------
+      // CASE 1: TRANSAKSI DARI CUSTOM PC
+      // --------------------------------------------------
+      if (input.customPcId) {
+        // ambil build + items
+        const pc = await ctx.db.query.customPcTable.findFirst({
+          where: eq(customPcTable.id, input.customPcId),
+          with: { items: true },
+        });
+
+        if (!pc)
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Custom PC tidak ditemukan',
+          });
+
+        if (pc.userId !== ctx.session.user.id)
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Anda tidak memiliki akses ke custom PC ini',
+          });
+
+        // mapping item custom pc ke format transactionItem
+        items = pc.items.map((i) => ({
+          productId: i.productId,
+          qty: i.quantity,
+          price: i.price,
+        }));
+      }
+
+      if (!items || items.length === 0)
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Tidak ada item dalam transaksi',
+        });
+
+      // --------------------------------------------------
+      // HITUNG TOTAL
+      // --------------------------------------------------
       const totalPrice = items.reduce((acc, i) => acc + i.qty * i.price, 0);
 
+      // --------------------------------------------------
+      // BUAT TRANSAKSI
+      // --------------------------------------------------
       const [trx] = await ctx.db
         .insert(transactionsTable)
         .values({
@@ -24,9 +71,13 @@ export const transactionRouter = createTRPCRouter({
           totalPrice,
           status: 'belum_dibayar',
           address: input.address,
+          customPcId: input.customPcId ?? null,
         })
         .returning();
 
+      // --------------------------------------------------
+      // MASUKKAN ITEM KE TRANSACTION_ITEM
+      // --------------------------------------------------
       for (const item of items) {
         await ctx.db.insert(transactionItem).values({
           transactionId: trx.id,
@@ -41,6 +92,7 @@ export const transactionRouter = createTRPCRouter({
         data: trx,
       };
     }),
+
   simulateTransactionPayment: userProcedure
     .input(transactionIdSchema)
     .mutation(async ({ ctx, input }) => {
@@ -72,6 +124,31 @@ export const transactionRouter = createTRPCRouter({
         .from(transactionItem)
         .where(eq(transactionItem.transactionId, transactionId));
 
+      // check stock and update stock and sold
+      // if any product stock is less than item quantity, throw error
+      for (const item of items) {
+        const [product] = await ctx.db
+          .select({
+            name: productsTable.name,
+            stock: productsTable.stock,
+          })
+          .from(productsTable)
+          .where(eq(productsTable.id, item.productId));
+
+        if (!product)
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: `Produk dengan ID ${item.productId} tidak ditemukan`,
+          });
+
+        if (product.stock < item.quantity)
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: `Stok produk ${product.name} tidak mencukupi`,
+          });
+      }
+
+      // update stock and sold
       for (const item of items) {
         await ctx.db
           .update(productsTable)
@@ -245,13 +322,12 @@ export const transactionRouter = createTRPCRouter({
     const [trx] = await ctx.db
       .select()
       .from(transactionsTable)
-      .where(eq(transactionsTable.id, transactionId));
-
-    if (trx.userId !== ctx.session.user.id)
-      throw new TRPCError({
-        code: 'FORBIDDEN',
-        message: 'Anda tidak memiliki akses ke transaksi ini',
-      });
+      .where(
+        and(
+          eq(transactionsTable.id, transactionId),
+          eq(transactionsTable.userId, ctx.session.user.id)
+        )
+      );
 
     const items = await ctx.db
       .select()

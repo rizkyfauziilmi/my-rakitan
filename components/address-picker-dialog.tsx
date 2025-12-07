@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -11,10 +11,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useRouter } from 'next/navigation';
-import { useTRPC } from '@/server/trpc/client';
-import { toast } from 'sonner';
-import { useCartStore } from '@/store/cart.store';
 import { Spinner } from './ui/spinner';
 import {
   Dialog,
@@ -48,22 +44,21 @@ async function fetcher(url: string): Promise<ApiResponse> {
 interface AddressPickerProps {
   open: boolean;
   setOpenChange: (open: boolean) => void;
-  onSuccess?: () => void;
+  isLoading: boolean;
+  onSubmit?: (address: string) => void;
 }
 
-export default function AddressPicker({ setOpenChange, open, onSuccess }: AddressPickerProps) {
+export default function AddressPicker({
+  setOpenChange,
+  open,
+  isLoading,
+  onSubmit,
+}: AddressPickerProps) {
   const [selectedProvince, setSelectedProvince] = useState<LocationItem | null>(null);
   const [selectedRegency, setSelectedRegency] = useState<LocationItem | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<LocationItem | null>(null);
   const [selectedVillage, setSelectedVillage] = useState<LocationItem | null>(null);
   const [customAddress, setCustomAddress] = useState('');
-
-  const items = useCartStore((s) => s.products);
-  const clearCart = useCartStore((s) => s.clearCart);
-
-  const trpc = useTRPC();
-  const queryClient = useQueryClient();
-  const router = useRouter();
 
   const { data: provincesData, isLoading: loadingProvinces } = useQuery({
     queryKey: ['provinces'],
@@ -139,36 +134,24 @@ export default function AddressPicker({ setOpenChange, open, onSuccess }: Addres
     setSelectedVillage(villages.find((x) => x.code === code) || null);
   };
 
-  const clearAddress = () => {
+  function resetSelections() {
     setSelectedProvince(null);
     setSelectedRegency(null);
     setSelectedDistrict(null);
     setSelectedVillage(null);
     setCustomAddress('');
-  };
-
-  // ======================
-  // 💵 Create Transaction
-  // ======================
-
-  const mutationOptions = trpc.transaction.createTransaction.mutationOptions({
-    onSuccess: ({ data, message }) => {
-      clearCart();
-      clearAddress();
-      setOpenChange(false);
-      onSuccess?.();
-      queryClient.invalidateQueries({ queryKey: trpc.transaction.pathKey() });
-      toast.success(message);
-      router.push(`/payment/${data.id}`);
-    },
-    onError: () => toast.error('Gagal membuat transaksi. Silakan coba lagi.'),
-  });
-
-  const createTransactionMutation = useMutation(mutationOptions);
-  const isLoading = createTransactionMutation.isPending;
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={(value) => {
+        setOpenChange(value);
+        if (!value) {
+          resetSelections();
+        }
+      }}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Isi Alamat Pemesanan</DialogTitle>
@@ -304,16 +287,11 @@ export default function AddressPicker({ setOpenChange, open, onSuccess }: Addres
               customAddress.trim() === '' ||
               isLoading
             }
-            onClick={() =>
-              createTransactionMutation.mutate({
-                items: items.map((item) => ({
-                  productId: item.id,
-                  qty: item.quantity,
-                  price: item.price,
-                })),
-                address: fullAddress,
-              })
-            }
+            onClick={() => {
+              if (onSubmit) {
+                onSubmit(fullAddress);
+              }
+            }}
           >
             {isLoading && <Spinner />}
             {isLoading ? 'Memproses...' : 'Lanjutkan'}

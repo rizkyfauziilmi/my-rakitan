@@ -17,6 +17,8 @@ import {
 import { ProductImage } from '@/components/product-image';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
+import { PcCase } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export function PaymentCard() {
   const { id } = useParams<{ id: string }>();
@@ -44,6 +46,9 @@ export function PaymentCard() {
         queryClient.invalidateQueries({
           queryKey: trpc.product.pathKey(),
         });
+        queryClient.invalidateQueries({
+          queryKey: trpc.customPc.pathKey(),
+        });
         toast.success(message);
         router.push(`/transactions/${data.id}`);
       },
@@ -61,6 +66,15 @@ export function PaymentCard() {
         <CardDescription>Order ID: {transaction.id}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {transaction.customPcId && (
+          <Alert>
+            <PcCase />
+            <AlertTitle>Pembelian PC Custom terdeteksi</AlertTitle>
+            <AlertDescription>
+              Pastikan Anda telah yakin dengan spesifikasi PC Custom sebelum melanjutkan pembayaran.
+            </AlertDescription>
+          </Alert>
+        )}
         <ItemGroup className="gap-4">
           {transaction.items.map(({ product: item, transaction_item }) => (
             <Item key={transaction_item.id} variant="outline" asChild role="listitem">

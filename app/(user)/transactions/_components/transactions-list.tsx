@@ -3,9 +3,10 @@
 import { useTRPC } from '@/server/trpc/client';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
-import { Package, ChevronRight } from 'lucide-react';
+import { Package, ChevronRight, PcCase } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 export function TransactionsList() {
   const trpc = useTRPC();
   const { data: transactions } = useSuspenseQuery(
@@ -28,7 +29,7 @@ export function TransactionsList() {
             return (
               <Link key={transaction.id} href={`/transactions/${transaction.id}`}>
                 <Card className="border-border hover:border-primary cursor-pointer transition-shadow hover:shadow-md">
-                  <CardContent className="p-6">
+                  <CardContent className="space-y-4 p-6">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="mb-2 flex items-center gap-4">
@@ -75,6 +76,15 @@ export function TransactionsList() {
 
                       <ChevronRight className="text-muted-foreground h-5 w-5" />
                     </div>
+                    {transaction.customPcId && (
+                      <Alert>
+                        <PcCase />
+                        <AlertTitle>Pembelian PC Custom terdeteksi</AlertTitle>
+                        <AlertDescription>
+                          Ini adalah pesanan PC Custom dengan ID: {transaction.customPcId}
+                        </AlertDescription>
+                      </Alert>
+                    )}
                   </CardContent>
                 </Card>
               </Link>

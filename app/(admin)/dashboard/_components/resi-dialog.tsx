@@ -38,6 +38,9 @@ export function ResiDialog({ open, onOpenChange, transactionId, setIsLoading }: 
       queryClient.invalidateQueries({
         queryKey: trpc.transaction.pathKey(),
       });
+      queryClient.invalidateQueries({
+        queryKey: trpc.product.pathKey(),
+      });
       onOpenChange(false);
       setIsLoading?.(false);
     },

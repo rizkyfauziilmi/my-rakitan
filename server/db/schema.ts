@@ -191,9 +191,12 @@ export const transactionStatusEnum = pgEnum('transaction_status_enum', [
 export type TransactionStatusType = (typeof transactionStatusEnum)['enumValues'][number];
 export const transactionsTable = pgTable('transaction', {
   id: uuid().primaryKey().defaultRandom(),
+
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
+
+  customPcId: uuid('custom_pc_id').references(() => customPcTable.id, { onDelete: 'set null' }),
 
   totalPrice: integer('total_price').notNull(),
   status: transactionStatusEnum('status').default('belum_dibayar').notNull(),
@@ -218,8 +221,43 @@ export const transactionItem = pgTable('transaction_item', {
     .notNull()
     .references(() => productsTable.id, { onDelete: 'cascade' }),
 
+  customPcItemId: uuid('custom_pc_id').references(() => customPcTable.id, { onDelete: 'set null' }),
+
   quantity: integer('quantity').notNull(),
   price: integer('price').notNull(), // harga per item saat transaksi
+});
+
+export const customPcTable = pgTable('custom_pc', {
+  id: uuid().primaryKey().defaultRandom(),
+
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+
+  name: text('name').notNull(), // nama build
+  notes: text('notes'), // catatan opsional
+  totalPrice: integer('total_price').notNull().default(0),
+
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+export const customPcItemTable = pgTable('custom_pc_item', {
+  id: uuid().primaryKey().defaultRandom(),
+
+  customPcId: uuid('custom_pc_id')
+    .notNull()
+    .references(() => customPcTable.id, { onDelete: 'cascade' }),
+
+  productId: uuid('product_id')
+    .notNull()
+    .references(() => productsTable.id, { onDelete: 'cascade' }),
+
+  quantity: integer('quantity').notNull().default(1),
+  price: integer('price').notNull(), // harga per item saat ditambahkan
 });
 
 export const transactionRelations = relations(transactionsTable, ({ one, many }) => ({
@@ -228,6 +266,10 @@ export const transactionRelations = relations(transactionsTable, ({ one, many })
     references: [user.id],
   }),
   items: many(transactionItem),
+  customPc: one(customPcTable, {
+    fields: [transactionsTable.customPcId],
+    references: [customPcTable.id],
+  }),
 }));
 
 export const transactionItemRelations = relations(transactionItem, ({ one }) => ({
@@ -257,5 +299,29 @@ export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
     references: [user.id],
+  }),
+}));
+
+export const customPcRelations = relations(customPcTable, ({ one, many }) => ({
+  user: one(user, {
+    fields: [customPcTable.userId],
+    references: [user.id],
+  }),
+  items: many(customPcItemTable),
+
+  transaction: one(transactionsTable, {
+    fields: [customPcTable.id],
+    references: [transactionsTable.customPcId],
+  }),
+}));
+
+export const customPcItemRelations = relations(customPcItemTable, ({ one }) => ({
+  customPc: one(customPcTable, {
+    fields: [customPcItemTable.customPcId],
+    references: [customPcTable.id],
+  }),
+  product: one(productsTable, {
+    fields: [customPcItemTable.productId],
+    references: [productsTable.id],
   }),
 }));
