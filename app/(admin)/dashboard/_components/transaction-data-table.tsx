@@ -62,12 +62,12 @@ export function TransactionDataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex flex-col gap-2 py-4 md:flex-row md:items-center">
         <Input
           placeholder="Cari transaksi berdasarkan ID..."
           value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
-          className="max-w-sm"
+          className="w-full md:max-w-sm"
         />
         <DataTableViewOptions table={table} />
       </div>

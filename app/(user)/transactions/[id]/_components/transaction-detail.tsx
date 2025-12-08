@@ -111,7 +111,7 @@ export function TransactionDetail() {
           <ChevronLeft className="h-4 w-4" />
           Kembali
         </Button>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-0">
           <div>
             <h1 className="text-foreground mb-2 text-3xl font-bold">Order #{transaction.id}</h1>
             <p className="text-muted-foreground">
@@ -133,7 +133,7 @@ export function TransactionDetail() {
       {/* Status Card */}
       <Card className="border-border bg-card mb-6">
         <CardContent className="space-y-4 p-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-0">
             <div className="flex items-center gap-4">
               <div className={`bg-muted rounded-lg p-3 ${colorMap[transaction.status]}`}>
                 {iconMap[transaction.status]}
@@ -151,9 +151,15 @@ export function TransactionDetail() {
                 )}
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 md:flex-row">
               {transaction.status === 'belum_dibayar' ? (
                 <>
+                  <Button size="sm" asChild disabled={isLoadingCancelTransaction}>
+                    <Link href={`/payment/${transaction.id}`}>
+                      <CreditCard />
+                      Bayar Sekarang
+                    </Link>
+                  </Button>
                   <Button
                     size="sm"
                     variant="destructive"
@@ -164,12 +170,6 @@ export function TransactionDetail() {
                   >
                     {isLoadingCancelTransaction ? <Spinner /> : <PackageX />}
                     {isLoadingCancelTransaction ? 'Membatalkan...' : 'Batalkan Pesanan'}
-                  </Button>
-                  <Button size="sm" asChild disabled={isLoadingCancelTransaction}>
-                    <Link href={`/payment/${transaction.id}`}>
-                      <CreditCard />
-                      Bayar Sekarang
-                    </Link>
                   </Button>
                 </>
               ) : transaction.status === 'dikirim' ? (

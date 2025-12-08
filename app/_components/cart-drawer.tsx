@@ -178,7 +178,7 @@ export function CartDrawer() {
                     </div>
 
                     <div className="flex-1 space-y-1">
-                      <h4 className="line-clamp-2 text-sm font-medium">{item.name}</h4>
+                      <h4 className="line-clamp-1 text-sm font-medium">{item.name}</h4>
                       <p className="text-muted-foreground text-xs">
                         {item.type},{' '}
                         {String(item.category)
@@ -187,8 +187,8 @@ export function CartDrawer() {
                           .join(' ')}
                       </p>
 
-                      <div className="mt-2 flex items-center justify-between">
-                        <div>
+                      <div className="mt-2 flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-row items-center justify-between gap-2 md:flex-col md:items-start md:justify-start">
                           <div className="text-sm font-medium">{formatIDR(item.price)}</div>
                           <div className="text-muted-foreground text-xs">x {item.quantity}</div>
                         </div>
@@ -289,7 +289,7 @@ export function CartDrawer() {
             >
               Checkout
             </Button>
-            <div className="flex w-full items-center gap-2">
+            <div className="flex w-full flex-col gap-2 md:flex-row md:items-center">
               {!noItems && (
                 <Button
                   variant="secondary"

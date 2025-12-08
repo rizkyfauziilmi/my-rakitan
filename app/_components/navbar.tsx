@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Gpu, Hammer, Keyboard, LucideLogIn, PcCase } from 'lucide-react';
+import { Gpu, Hammer, Keyboard, LucideLogIn, Menu, PcCase } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,6 +18,21 @@ import { authClient } from '@/lib/auth-client';
 import { UserDropdown } from '@/components/user-dropdown';
 import { CartDrawer } from './cart-drawer';
 import { CustomPcDrawer } from './custom-pc-drawer';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { useState } from 'react';
 
 const components: {
   title: string;
@@ -57,11 +72,17 @@ const components: {
 export function NavBar() {
   const isMobile = useIsMobile();
   const { data: session, isPending } = authClient.useSession();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-background">
       <div className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-12">
+        <div className="block md:hidden">
+          <Link href="/">
+            <h3 className="scroll-m-20 text-xl font-semibold tracking-tight">MyRakitan.id</h3>
+          </Link>
+        </div>
+        <div className="hidden items-center gap-12 md:flex">
           <Link href="/">
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">MyRakitan.id</h3>
           </Link>
@@ -116,12 +137,86 @@ export function NavBar() {
           ) : (
             <Button variant="outline" asChild>
               <Link href="/login">
-                <LucideLogIn /> Masuk / Daftar
+                <LucideLogIn /> Masuk
               </Link>
             </Button>
           )}
           {session?.user.role !== 'admin' && <CartDrawer />}
           {session && session.user.role !== 'admin' && <CustomPcDrawer />}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button size="icon" variant="outline">
+                <Menu />
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+                <SheetDescription>
+                  Jelajahi berbagai bagian situs melalui menu navigasi ini.
+                </SheetDescription>
+              </SheetHeader>
+
+              <div className="space-y-2 p-4">
+                <ModeToggle isFull />
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link href="/">Beranda</Link>
+                </Button>
+
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="toko">
+                    <AccordionTrigger className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 border p-2 shadow-xs">
+                      Toko
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="mt-2 space-y-3 pl-3">
+                        {components.map((item) => (
+                          <Link
+                            key={item.title}
+                            href={item.href}
+                            className="flex items-center gap-2 py-1 text-base"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {item.icon} {item.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link href="/tentang-kami">Tentang Kami</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link href="/kontak">Kontak</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link href="/faq">FAQ</Link>
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>

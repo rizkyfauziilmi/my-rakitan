@@ -17,8 +17,10 @@ import { Button } from '@/components/ui/button';
 import { FilterX } from 'lucide-react';
 import { useQueryState } from 'nuqs';
 import { productSearchParams } from '../_lib/searchParams';
+import { useMediaQuery } from '@uidotdev/usehooks';
 
 export function ProductFilter() {
+  const isMobile = useMediaQuery('only screen and (max-width: 48rem)');
   const [query, setQuery] = useQueryState('q', productSearchParams.q);
   const [selectedType, setSelectedType] = useQueryState('type', productSearchParams.type);
   const [selectedCategory, setSelectedCategory] = useQueryState(
@@ -40,15 +42,15 @@ export function ProductFilter() {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-0">
         <Input
           value={query ?? ''}
           onChange={(e) => setQuery(e.target.value.trim() === '' ? null : e.target.value)}
           type="text"
           placeholder="Cari produk..."
-          className="max-w-sm"
+          className="md:max-w-sm"
         />
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
           <Select
             value={selectedType ?? ''}
             onValueChange={(val) => {
@@ -58,7 +60,7 @@ export function ProductFilter() {
               setSelectedCategory(null);
             }}
           >
-            <SelectTrigger className="w-[180px]" value="">
+            <SelectTrigger className="w-full md:w-[180px]" value="">
               <SelectValue placeholder="Pilih Tipe Produk" />
             </SelectTrigger>
             <SelectContent>
@@ -77,7 +79,7 @@ export function ProductFilter() {
             value={selectedCategory ?? ''}
             onValueChange={(val: CategoryProductType) => setSelectedCategory(val)}
           >
-            <SelectTrigger className="w-[280px]" value="">
+            <SelectTrigger className="w-full md:w-[280px]" value="">
               <SelectValue placeholder="Pilih Kategori Produk" />
             </SelectTrigger>
             <SelectContent>
@@ -104,8 +106,13 @@ export function ProductFilter() {
             </SelectContent>
           </Select>
           {(selectedType || selectedCategory) && (
-            <Button onClick={resetFilters} variant="destructive" size="icon">
+            <Button
+              onClick={resetFilters}
+              variant="destructive"
+              size={isMobile ? 'default' : 'icon'}
+            >
               <FilterX />
+              {isMobile && 'Hapus Filter'}
             </Button>
           )}
         </div>
