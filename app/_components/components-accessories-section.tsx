@@ -94,9 +94,12 @@ export function ComponentsAccessoriesSection() {
           ]}
           className="w-full"
         >
-          <CarouselContent className="-ml-2">
+          <CarouselContent className="-ml-2 flex flex-wrap">
             {data.map((product) => (
-              <CarouselItem key={product.id} className="basis-1/3 pl-2">
+              <CarouselItem
+                key={product.id}
+                className="basis-full p-2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+              >
                 <ProductCard product={product} />
               </CarouselItem>
             ))}

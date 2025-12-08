@@ -111,11 +111,11 @@ export function CustomBuildSection() {
         </div>
 
         {/* Interactive Build Configurator */}
-        <div className="mb-16 grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div className="mb-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-2">
           {/* Visual Configurator */}
           <div className="space-y-8">
             {/* Component Selection Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
               {categories.map((cat) => (
                 <button
                   key={cat.category}
@@ -150,7 +150,7 @@ export function CustomBuildSection() {
                 {isLoading || error ? (
                   <div>Loading...</div>
                 ) : data ? (
-                  <ItemGroup className="grid grid-cols-3 gap-4">
+                  <ItemGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {data.map((component) => (
                       <Item key={component.name} variant="muted">
                         <ItemHeader>
