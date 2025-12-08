@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '../db';
 import { admin } from 'better-auth/plugins';
+import { sendEmail } from '@/lib/email';
 
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET as string,
@@ -10,7 +11,20 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    autoSignIn: true,
+    requireEmailVerification: true,
+    autoSignIn: false,
+  },
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: 'Verifikasi Email Anda',
+        html: `<p>Silakan verifikasi email Anda dengan mengklik tautan berikut:</p>
+               <a href="${url}">Verifikasi Email</a>
+               <p>Jika Anda tidak membuat permintaan ini, abaikan email ini.</p>`,
+      });
+    },
+    autoSignInAfterVerification: true,
   },
   socialProviders: {
     google: {
