@@ -17,10 +17,10 @@ import { Button } from '@/components/ui/button';
 import { FilterX } from 'lucide-react';
 import { useQueryState } from 'nuqs';
 import { productSearchParams } from '../_lib/searchParams';
-import { useMediaQuery } from '@uidotdev/usehooks';
+import useIsMobile from '@/hooks/use-is-mobile';
 
 export function ProductFilter() {
-  const isMobile = useMediaQuery('only screen and (max-width: 48rem)');
+  const isMobile = useIsMobile();
   const [query, setQuery] = useQueryState('q', productSearchParams.q);
   const [selectedType, setSelectedType] = useQueryState('type', productSearchParams.type);
   const [selectedCategory, setSelectedCategory] = useQueryState(
