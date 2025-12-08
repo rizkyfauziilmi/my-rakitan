@@ -11,12 +11,12 @@ import { useTRPC } from '@/server/trpc/client';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { ProductCard } from '@/components/product-card';
-import { useMediaQuery } from '@uidotdev/usehooks';
+import useIsMobile from '@/hooks/use-is-mobile';
 
 export function ComponentsAccessoriesSection() {
   const [activeCategory, setActiveCategory] = useState<ProductType>('component');
   const trpc = useTRPC();
-  const isMobile = useMediaQuery('only screen and (max-width: 48rem)');
+  const isMobile = useIsMobile();
 
   const { data, isLoading, error } = useQuery(
     trpc.product.getByType.queryOptions({
