@@ -122,7 +122,7 @@ export function PrebuiltPCSection() {
         </p>
       </div>
 
-      {/* Category Tabs with Toggle Animation */}
+      {/* Tabs */}
       <div className="mb-12 flex flex-col flex-wrap justify-center gap-4 sm:flex-row">
         {categories.map((category) => (
           <Button
@@ -146,18 +146,18 @@ export function PrebuiltPCSection() {
         </Button>
       </div>
 
-      {/* Active Category Display with Animated Transition */}
-      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-        {/* Left Side - Specs & Features */}
-        <div className="animate-in fade-in space-y-8 duration-300">
+      {/* Content */}
+      <div className="relative flex flex-col gap-10 lg:flex-row lg:items-start">
+        {/* Left (Text + Specs) */}
+        <div className="animate-in fade-in flex-1 space-y-8 duration-300">
           <div>
             <p className="text-primary mb-2 text-sm font-semibold">{activeConfig.tagline}</p>
             <h3 className="mb-4 text-3xl font-bold">{activeConfig.name}</h3>
             <p className="text-muted-foreground text-lg">{activeConfig.description}</p>
           </div>
 
-          {/* Specs Grid */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Specs Grid – FIXED RESPONSIVE */}
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-4">
             {activeConfig.specs.map((spec, index) => (
               <div
                 key={index}
@@ -197,11 +197,11 @@ export function PrebuiltPCSection() {
           </div>
         </div>
 
-        {/* Right Side - Visual Showcase */}
-        <div className="relative">
-          <div className="border-border bg-card/50 group hover:border-accent/50 relative flex h-96 items-center justify-center overflow-hidden rounded-xl border-2 p-8 transition-colors">
+        {/* Right Visual (TIDAK DIHAPUS) */}
+        <div className="mx-auto lg:w-[380px]">
+          <div className="border-border bg-card/50 group hover:border-accent/50 relative flex h-80 items-center justify-center overflow-hidden rounded-xl border-2 p-8 transition-colors md:h-96">
             <div className="relative z-10 space-y-4 text-center">
-              <div className="bg-accent text-accent-foreground mx-auto flex h-40 w-40 animate-bounce items-center justify-center rounded-lg">
+              <div className="bg-accent text-accent-foreground mx-auto flex h-36 w-36 animate-bounce items-center justify-center rounded-lg md:h-40 md:w-40">
                 {activeConfig.icon}
               </div>
               <p className="text-sm font-semibold">{activeConfig.name}</p>

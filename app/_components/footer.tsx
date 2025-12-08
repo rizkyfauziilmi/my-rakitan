@@ -9,25 +9,26 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-primary/10 text-foreground border-muted-foreground border-t">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Main Footer */}
-        <div className="mb-12 grid gap-8 md:grid-cols-4">
+    <footer className="bg-background border-muted border-t">
+      <div className="mx-auto w-full max-w-[1400px] px-4 py-12 sm:px-6 lg:px-8">
+        {/* Main Sections */}
+        <div className="mb-12 grid gap-10 md:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="from-primary to-secondary flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br">
+              <div className="from-primary to-secondary flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br">
                 <span className="text-sm font-bold">RP</span>
               </div>
               <span className="text-lg font-bold">Rakitin PC</span>
             </div>
-            <p className="text-muted-foreground text-sm">
-              Solusi terbaik untuk semua kebutuhan komputermu dengan harga bersaing dan layanan
+
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Solusi terbaik untuk semua kebutuhan komputermu dengan harga bersaing dan dukungan
               pelanggan terbaik.
             </p>
           </div>
 
-          {/* Links */}
+          {/* Produk */}
           <div>
             <h4 className="mb-4 font-semibold">Produk</h4>
             <ul className="space-y-2 text-sm">
@@ -38,7 +39,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/products?type=prebuilt" className="hover:text-primary transition">
-                  PC Rakitan Siap Pakai
+                  PC Siap Pakai
                 </Link>
               </li>
               <li>
@@ -54,63 +55,58 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Perusahaan */}
           <div>
             <h4 className="mb-4 font-semibold">Perusahaan</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="#" className="hover:text-primary transition">
                   Tentang Kami
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="#" className="hover:text-primary transition">
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="#" className="hover:text-primary transition">
                   Karir
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="#" className="hover:text-primary transition">
                   Kontak
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Kontak */}
           <div>
             <h4 className="mb-4 font-semibold">Kontak</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
-                <Phone size={16} className="text-primary" />
-                <span>+62 812 3456 7890</span>
+                <Phone size={16} className="text-primary" /> +62 812 3456 7890
               </li>
               <li className="flex items-center gap-2">
-                <Mail size={16} className="text-primary" />
-                <span>info@rakitinpc.com</span>
+                <Mail size={16} className="text-primary" /> info@rakitinpc.com
               </li>
               <li className="flex items-start gap-2">
-                <MapPin size={16} className="text-primary mt-1 shrink-0" />
-                <span>Jakarta, Indonesia</span>
+                <MapPin size={16} className="text-primary mt-1" /> Jakarta, Indonesia
               </li>
             </ul>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="border-muted-foreground border-t py-8">
-          <div className="flex flex-col items-center justify-between md:flex-row">
-            {/* Copyright */}
+        <div className="border-muted border-t py-8">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-muted-foreground text-sm">
               © 2025 Rakitin PC. Semua hak dilindungi.
             </p>
 
-            {/* Social */}
-            <div className="mt-6 flex items-center gap-4 md:mt-0">
+            <div className="flex items-center gap-4">
               <a href="#" className="text-muted-foreground hover:text-primary transition">
                 <Facebook />
               </a>
@@ -128,16 +124,16 @@ export default function Footer() {
         </div>
 
         {/* Bottom Links */}
-        <div className="text-muted-foreground border-muted-foreground flex flex-col gap-4 border-t pt-8 text-xs sm:flex-row">
-          <a href="#" className="hover:text-primary transition">
+        <div className="border-muted text-muted-foreground flex flex-col gap-4 border-t pt-8 text-xs sm:flex-row">
+          <Link href="#" className="hover:text-primary">
             Kebijakan Privasi
-          </a>
-          <a href="#" className="hover:text-primary transition">
+          </Link>
+          <Link href="#" className="hover:text-primary">
             Syarat & Ketentuan
-          </a>
-          <a href="#" className="hover:text-primary transition">
+          </Link>
+          <Link href="#" className="hover:text-primary">
             Kebijakan Pengembalian
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
