@@ -19,7 +19,7 @@ export function Topbar() {
 
 function TopBarBanner() {
   return (
-    <div className="bg-primary text-primary-foreground flex items-center justify-between px-4 py-2">
+    <div className="bg-primary text-primary-foreground flex flex-col items-center justify-between px-4 py-2 text-center md:flex-row md:items-center md:text-start">
       <div className="flex items-center gap-4">
         <Button variant="link" className="text-white">
           <Phone />
@@ -34,7 +34,6 @@ function TopBarBanner() {
       <p>Ikuti Kami dan Dapatkan Diskon Hingga 80%</p>
 
       <div className="flex items-center gap-1">
-        <p>Ikuti Kami:</p>
         <Button variant="link" size="icon">
           <Instagram />
         </Button>

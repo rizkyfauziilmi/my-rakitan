@@ -24,24 +24,24 @@ export default function RootLayout({
 }>) {
   return (
     <TRPCReactProvider>
-      <html lang="id" className={openSans.className} suppressHydrationWarning>
-        <head />
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NuqsAdapter>
+      <NuqsAdapter>
+        <html lang="id" className={openSans.className} suppressHydrationWarning>
+          <head />
+          <body>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
               <Topbar />
               {children}
               <Footer />
               <Toaster />
-            </NuqsAdapter>
-          </ThemeProvider>
-        </body>
-      </html>
+            </ThemeProvider>
+          </body>
+        </html>
+      </NuqsAdapter>
     </TRPCReactProvider>
   );
 }

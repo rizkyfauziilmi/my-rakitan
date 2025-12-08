@@ -112,7 +112,7 @@ export function TambahProdukForm() {
   const categories = type ? filteredCategories(type) : [];
 
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex flex-col-reverse gap-4 md:flex-row md:items-center md:justify-center">
       <Card className="w-full max-w-2xl">
         <CardHeader>
           <CardTitle>Tambah Produk</CardTitle>

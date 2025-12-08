@@ -63,16 +63,16 @@ export function ProductDataTable<TData, TValue>({ columns, data }: DataTableProp
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex flex-col gap-2 py-4 md:flex-row md:items-center">
         <Input
           placeholder="Cari produk..."
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-          className="max-w-sm"
+          className="w-full md:max-w-sm"
         />
-        <div className="ml-auto flex items-center gap-2">
-          <Button>
-            <Link href="/dashboard/produk/tambah" className="flex items-center gap-2">
+        <div className="flex flex-col gap-2 md:ml-auto md:flex-row md:items-center">
+          <Button asChild>
+            <Link href="/dashboard/produk/tambah">
               <Plus />
               Tambah Produk
             </Link>
