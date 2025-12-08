@@ -71,8 +71,8 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       },
       {
         onSuccess: () => {
-          toast.success(`Selamat datang, ${username}!`);
-          router.push('/');
+          toast.success('Akun berhasil dibuat! Silakan periksa email Anda untuk verifikasi.');
+          router.push('/login');
         },
         onError: (ctx) => {
           toast.error(`Gagal membuat akun!`, {
