@@ -88,7 +88,7 @@ export function CustomPcForm() {
     name: 'items',
   });
 
-  const totalPrice = items.reduce((acc, item) => acc + (item?.price || 0) * item.quantity, 0);
+  const totalPrice = items.reduce((acc, item) => acc + (item?.price || 0) * 1, 0);
 
   return (
     <div>
@@ -114,7 +114,7 @@ export function CustomPcForm() {
             name="items"
             control={form.control}
             render={({ field, fieldState }) => (
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 overflow-x-auto md:grid-cols-2">
                 {Object.entries(groupedByCategory).map(([category, items]) => (
                   <Field data-invalid={fieldState.invalid} key={category}>
                     <FieldLabel htmlFor={`custom-pc-${category}`}>
@@ -165,10 +165,10 @@ export function CustomPcForm() {
         </FieldGroup>
       </form>
       <div className="mt-4 flex items-center justify-between">
-        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+        <h3 className="scroll-m-20 text-lg font-semibold tracking-tight md:text-2xl">
           Total Harga Custom PC Kamu:
         </h3>
-        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+        <h3 className="scroll-m-20 text-lg font-semibold tracking-tight md:text-2xl">
           {new Intl.NumberFormat('id-ID', {
             style: 'currency',
             currency: 'IDR',

@@ -56,9 +56,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
       },
       {
         onError: (ctx) => {
-          toast.error('Gagal masuk!', {
-            description: ctx.error.message,
-          });
+          if (ctx.error.status === 403) {
+            toast.error('Harap verifikasi email Anda terlebih dahulu.', {
+              description: 'Kami telah mengirimkan email verifikasi kepada Anda.',
+            });
+          } else {
+            toast.error('Gagal masuk!', {
+              description: ctx.error.message,
+            });
+          }
         },
         onSuccess: (ctx) => {
           toast.success(`Selamat datang, ${ctx.data.user.name}!`);

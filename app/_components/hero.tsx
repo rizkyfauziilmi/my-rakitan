@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export function Hero() {
   return (
-    <section className="flex min-h-[calc(100vh-100px)] flex-col-reverse items-center justify-between gap-6 px-2 sm:px-4 lg:flex-row lg:gap-10 lg:px-0">
+    <section className="flex min-h-[calc(100vh-100px)] flex-col-reverse md:flex-row md:items-center md:justify-center">
       <div className="flex flex-1 flex-col items-start gap-4 text-left">
         <h1 className="scroll-m-20 text-3xl font-bold tracking-tight text-balance sm:text-4xl md:text-5xl">
           Bangun PC Impianmu bersama{' '}
@@ -17,11 +17,11 @@ export function Hero() {
           rakit sekarang dan wujudkan{' '}
           <span className="text-primary font-extrabold">performa maksimal!</span>
         </p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          <Button asChild>
+        <div className="flex w-full flex-col items-center gap-2 md:flex-row">
+          <Button asChild className="w-full md:w-fit">
             <Link href="/pc-custom">Rakit Komputer Sekarang</Link>
           </Button>
-          <Button variant="outline" asChild>
+          <Button variant="outline" asChild className="w-full md:w-fit">
             <Link href="/products">Lihat Produk Lainnya</Link>
           </Button>
         </div>

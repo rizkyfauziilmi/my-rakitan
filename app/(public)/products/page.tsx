@@ -3,7 +3,7 @@ import { HydrateClient, prefetch, trpc } from '@/server/trpc/server';
 import { ProductFilter } from './_components/product-filter';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
-import { ProductList } from './_components/product-list';
+import { ProductCardSkeletons, ProductList } from './_components/product-list';
 import type { SearchParams } from 'nuqs/server';
 import { loadProductSearchParams } from './_lib/searchParams';
 
@@ -28,7 +28,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
       <MainLayout>
         <ProductFilter />
         <ErrorBoundary fallback={<div>Something went wrong.</div>}>
-          <Suspense fallback={<div>Loading products...</div>}>
+          <Suspense fallback={<ProductCardSkeletons />}>
             <ProductList />
           </Suspense>
         </ErrorBoundary>

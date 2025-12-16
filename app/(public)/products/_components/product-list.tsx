@@ -7,6 +7,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useQueryState } from 'nuqs';
 import { productSearchParams } from '../_lib/searchParams';
 import { useDebounce, useIntersectionObserver } from '@uidotdev/usehooks';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function ProductList() {
   const trpc = useTRPC();
@@ -77,13 +78,10 @@ export function ProductList() {
             </div>
           );
         })}
+        {isFetchingNextPage &&
+          Array.from({ length: 8 }).map((_, idx) => <ProductCardSkeleton key={idx} />)}
       </div>
       <div className="mt-4 text-center">
-        {isFetchingNextPage && (
-          <div className="flex justify-center">
-            <p className="text-sm text-zinc-400">Memuat produk lainnya...</p>
-          </div>
-        )}
         {!isFetchingNextPage &&
           products?.pages.length &&
           !products.pages[products.pages.length - 1].nextCursor && (
@@ -92,6 +90,20 @@ export function ProductList() {
             </div>
           )}
       </div>
+    </div>
+  );
+}
+
+function ProductCardSkeleton() {
+  return <Skeleton className="h-[564px] w-full" />;
+}
+
+export function ProductCardSkeletons() {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {Array.from({ length: 8 }).map((_, idx) => (
+        <ProductCardSkeleton key={idx} />
+      ))}
     </div>
   );
 }

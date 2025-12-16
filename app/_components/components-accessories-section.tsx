@@ -11,10 +11,12 @@ import { useTRPC } from '@/server/trpc/client';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { ProductCard } from '@/components/product-card';
+import useIsMobile from '@/hooks/use-is-mobile';
 
 export function ComponentsAccessoriesSection() {
   const [activeCategory, setActiveCategory] = useState<ProductType>('component');
   const trpc = useTRPC();
+  const isMobile = useIsMobile();
 
   const { data, isLoading, error } = useQuery(
     trpc.product.getByType.queryOptions({
@@ -50,7 +52,7 @@ export function ComponentsAccessoriesSection() {
       {/* Header */}
       <div className="mb-16 text-center">
         <Badge className="mb-2 scale-125">1000+ Komponen</Badge>
-        <h2 className="mb-6 text-5xl font-bold tracking-tight text-balance sm:text-6xl">
+        <h2 className="mb-6 text-5xl font-bold tracking-tight text-balance sm:text-6xl md:text-2xl">
           Komponen & Aksesori
         </h2>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
@@ -92,14 +94,12 @@ export function ComponentsAccessoriesSection() {
               delay: 1500,
             }),
           ]}
+          orientation={isMobile ? 'vertical' : 'horizontal'}
           className="w-full"
         >
-          <CarouselContent className="-ml-2 flex flex-wrap">
+          <CarouselContent className="-mt-1 h-[600px] md:mt-0 md:-ml-2">
             {data.map((product) => (
-              <CarouselItem
-                key={product.id}
-                className="basis-full p-2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
-              >
+              <CarouselItem key={product.id} className="pt-1 md:basis-1/3 md:pl-2">
                 <ProductCard product={product} />
               </CarouselItem>
             ))}
